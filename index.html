@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CGWRF Office Display</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #07131c;
+        color: white;
+    }
+
+    body {
+        background:
+            radial-gradient(circle at 75% 20%, rgba(38, 126, 156, .28), transparent 35%),
+            linear-gradient(135deg, #07131c 0%, #0b2532 55%, #123848 100%);
+    }
+
+    .dashboard {
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-rows: 18% 56% 26%;
+        padding: 2.2vh 2.2vw;
+        gap: 1.5vh;
+    }
+
+    /* HEADER */
+    .header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        border-bottom: 2px solid rgba(255,255,255,.14);
+        padding-bottom: 1vh;
+    }
+
+    .facility-title {
+        font-size: 3.1vw;
+        font-weight: 700;
+        letter-spacing: .02em;
+    }
+
+    .facility-subtitle {
+        font-size: 1.35vw;
+        opacity: .75;
+        margin-top: .5vh;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+
+    .clock-area {
+        text-align: right;
+    }
+
+    #clock {
+        font-size: 3.7vw;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    #date {
+        margin-top: .8vh;
+        font-size: 1.25vw;
+        opacity: .75;
+    }
+
+    /* CENTER */
+    .main {
+        display: grid;
+        grid-template-columns: 36% 1fr;
+        gap: 1.5vw;
+    }
+
+    .card {
+        background: rgba(255,255,255,.07);
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 1.2vw;
+        box-shadow: 0 12px 28px rgba(0,0,0,.18);
+    }
+
+    .weather-card {
+        padding: 2vh 2vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .location {
+        font-size: 1.5vw;
+        opacity: .76;
+        margin-bottom: .6vh;
+    }
+
+    .weather-current {
+        display: flex;
+        align-items: center;
+        gap: 1.2vw;
+    }
+
+    #temp {
+        font-size: 7vw;
+        font-weight: 300;
+        line-height: .95;
+    }
+
+    #weatherIcon {
+        font-size: 4.5vw;
+    }
+
+    #conditions {
+        margin-top: 1vh;
+        font-size: 1.8vw;
+        font-weight: 600;
+    }
+
+    .weather-details {
+        margin-top: 2.3vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1vh;
+        font-size: 1.25vw;
+        opacity: .84;
+    }
+
+    /* FEATURE / IMAGE AREA */
+    .feature-card {
+        position: relative;
+        overflow: hidden;
+        padding: 0;
+        background:
+            linear-gradient(rgba(0,0,0,.18), rgba(0,0,0,.52)),
+            linear-gradient(135deg, #15728b, #0b3848 55%, #07131c);
+    }
+
+    .feature-content {
+        position: absolute;
+        left: 2vw;
+        right: 2vw;
+        bottom: 2.2vh;
+    }
+
+    .feature-label {
+        text-transform: uppercase;
+        letter-spacing: .13em;
+        font-size: 1vw;
+        opacity: .72;
+        margin-bottom: 1vh;
+    }
+
+    .feature-title {
+        font-size: 3vw;
+        line-height: 1.08;
+        font-weight: 700;
+        max-width: 90%;
+    }
+
+    .feature-description {
+        margin-top: 1.4vh;
+        font-size: 1.35vw;
+        line-height: 1.4;
+        max-width: 85%;
+        opacity: .87;
+    }
+
+    /* BOTTOM */
+    .bottom {
+        display: grid;
+        grid-template-columns: 58% 1fr;
+        gap: 1.5vw;
+    }
+
+    .forecast {
+        padding: 1.5vh 1.4vw;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: center;
+    }
+
+    .forecast-day {
+        text-align: center;
+        border-right: 1px solid rgba(255,255,255,.12);
+    }
+
+    .forecast-day:last-child {
+        border-right: none;
+    }
+
+    .forecast-name {
+        font-size: 1.05vw;
+        text-transform: uppercase;
+        opacity: .65;
+        letter-spacing: .06em;
+    }
+
+    .forecast-icon {
+        font-size: 2.1vw;
+        margin: .8vh 0;
+    }
+
+    .forecast-temp {
+        font-size: 1.35vw;
+        font-weight: 600;
+    }
+
+    .forecast-low {
+        opacity: .55;
+        margin-left: .25vw;
+    }
+
+    .fact-card {
+        padding: 1.8vh 1.5vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .fact-label {
+        color: #74d6ee;
+        font-size: 1vw;
+        text-transform: uppercase;
+        letter-spacing: .15em;
+        font-weight: 700;
+        margin-bottom: 1vh;
+    }
+
+    #fact {
+        font-size: 1.35vw;
+        line-height: 1.45;
+    }
+
+    .footer {
+        position: fixed;
+        bottom: .7vh;
+        right: 1.2vw;
+        font-size: .7vw;
+        opacity: .34;
+    }
+
+    .error {
+        color: #ffd36a;
+        font-size: 1.2vw;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <header class="header">
+        <div>
+            <div class="facility-title">Water Reclamation Facility</div>
+            <div class="facility-subtitle">City of Casa Grande • Public Works</div>
+        </div>
+
+        <div class="clock-area">
+            <div id="clock">--:--</div>
+            <div id="date">Loading...</div>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <section class="card weather-card">
+            <div class="location">📍 Casa Grande, Arizona</div>
+
+            <div class="weather-current">
+                <div id="temp">--°</div>
+                <div id="weatherIcon">☀️</div>
+            </div>
+
+            <div id="conditions">Loading weather...</div>
+
+            <div class="weather-details">
+                <div>Feels Like: <strong id="feels">--°</strong></div>
+                <div>Humidity: <strong id="humidity">--%</strong></div>
+                <div>Wind: <strong id="wind">-- mph</strong></div>
+                <div>Today: <strong id="todayHighLow">--° / --°</strong></div>
+            </div>
+        </section>
+
+        <section class="card feature-card">
+            <div class="feature-content">
+                <div class="feature-label">Serving Casa Grande</div>
+
+                <div class="feature-title">
+                    Protecting Public Health.<br>
+                    Conserving Water.<br>
+                    Supporting Our Community.
+                </div>
+
+                <div class="feature-description">
+                    The Water Reclamation Facility uses science, technology and skilled operators
+                    to safely treat wastewater and produce valuable reclaimed water for our community.
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <section class="bottom">
+
+        <div class="card forecast" id="forecast">
+            <div class="forecast-day">Loading forecast...</div>
+        </div>
+
+        <div class="card fact-card">
+            <div class="fact-label">Did You Know?</div>
+            <div id="fact">
+                Wastewater treatment protects public health and helps preserve Arizona's valuable water resources.
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+<div class="footer">CGWRF Office Information Display</div>
+
+<script>
+/* ---------------- CLOCK ---------------- */
+
+function updateClock() {
+    const now = new Date();
+
+    document.getElementById("clock").textContent =
+        now.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit"
+        });
+
+    document.getElementById("date").textContent =
+        now.toLocaleDateString("en-US", {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+        });
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+
+/* ---------------- WEATHER ---------------- */
+
+/*
+Casa Grande approximate coordinates.
+Weather data supplied by Open-Meteo.
+No API key required.
+*/
+
+const latitude = 32.8795;
+const longitude = -111.7574;
+
+function weatherDescription(code) {
+
+    const map = {
+        0: ["Clear", "☀️"],
+        1: ["Mostly Clear", "🌤️"],
+        2: ["Partly Cloudy", "⛅"],
+        3: ["Cloudy", "☁️"],
+        45: ["Fog", "🌫️"],
+        48: ["Fog", "🌫️"],
+        51: ["Light Drizzle", "🌦️"],
+        53: ["Drizzle", "🌦️"],
+        55: ["Heavy Drizzle", "🌧️"],
+        61: ["Light Rain", "🌦️"],
+        63: ["Rain", "🌧️"],
+        65: ["Heavy Rain", "🌧️"],
+        71: ["Light Snow", "🌨️"],
+        73: ["Snow", "🌨️"],
+        75: ["Heavy Snow", "❄️"],
+        80: ["Rain Showers", "🌦️"],
+        81: ["Rain Showers", "🌧️"],
+        82: ["Heavy Showers", "⛈️"],
+        95: ["Thunderstorms", "⛈️"],
+        96: ["Thunderstorms", "⛈️"],
+        99: ["Severe Thunderstorms", "⛈️"]
+    };
+
+    return map[code] || ["Conditions", "🌤️"];
+}
+
+
+async function loadWeather() {
+
+    const url =
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}` +
+        `&longitude=${longitude}` +
+        `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m` +
+        `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
+        `&temperature_unit=fahrenheit` +
+        `&wind_speed_unit=mph` +
+        `&timezone=America%2FPhoenix` +
+        `&forecast_days=5`;
+
+    try {
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        const current = data.current;
+        const description = weatherDescription(current.weather_code);
+
+        document.getElementById("temp").textContent =
+            Math.round(current.temperature_2m) + "°";
+
+        document.getElementById("weatherIcon").textContent =
+            description[1];
+
+        document.getElementById("conditions").textContent =
+            description[0];
+
+        document.getElementById("feels").textContent =
+            Math.round(current.apparent_temperature) + "°";
+
+        document.getElementById("humidity").textContent =
+            Math.round(current.relative_humidity_2m) + "%";
+
+        document.getElementById("wind").textContent =
+            Math.round(current.wind_speed_10m) + " mph";
+
+        document.getElementById("todayHighLow").textContent =
+            Math.round(data.daily.temperature_2m_max[0]) +
+            "° / " +
+            Math.round(data.daily.temperature_2m_min[0]) +
+            "°";
+
+        buildForecast(data.daily);
+
+    } catch (error) {
+
+        document.getElementById("conditions").innerHTML =
+            '<span class="error">Weather temporarily unavailable</span>';
+
+    }
+}
+
+
+function buildForecast(daily) {
+
+    const forecast = document.getElementById("forecast");
+    forecast.innerHTML = "";
+
+    for (let i = 0; i < daily.time.length; i++) {
+
+        const date = new Date(daily.time[i] + "T12:00:00");
+
+        const dayName =
+            date.toLocaleDateString("en-US", {
+                weekday: "short"
+            });
+
+        const weather = weatherDescription(daily.weather_code[i]);
+
+        const div = document.createElement("div");
+        div.className = "forecast-day";
+
+        div.innerHTML = `
+            <div class="forecast-name">${i === 0 ? "Today" : dayName}</div>
+            <div class="forecast-icon">${weather[1]}</div>
+            <div class="forecast-temp">
+                ${Math.round(daily.temperature_2m_max[i])}°
+                <span class="forecast-low">
+                    ${Math.round(daily.temperature_2m_min[i])}°
+                </span>
+            </div>
+        `;
+
+        forecast.appendChild(div);
+    }
+}
+
+
+/* Refresh weather every 15 minutes */
+
+loadWeather();
+setInterval(loadWeather, 15 * 60 * 1000);
+
+
+/* ---------------- ROTATING FACTS ---------------- */
+
+const facts = [
+
+    "Wastewater treatment protects public health and helps preserve Arizona's valuable water resources.",
+
+    "Reclaimed water gives treated wastewater a second life and reduces demand on potable water supplies.",
+
+    "Wastewater operators monitor treatment processes around the clock to ensure safe and reliable operation.",
+
+    "Biological treatment uses naturally occurring microorganisms to remove pollutants from wastewater.",
+
+    "Every gallon of water that can be safely reused helps strengthen Casa Grande's long-term water sustainability.",
+
+    "Modern wastewater treatment combines biology, chemistry, engineering, automation and environmental science.",
+
+    "The water that leaves a reclamation facility is dramatically cleaner than the wastewater that entered it.",
+
+    "Reliable wastewater infrastructure is essential to public health, economic development and community growth."
+
+];
+
+let factIndex = 0;
+
+function rotateFact() {
+
+    factIndex = (factIndex + 1) % facts.length;
+
+    const factElement = document.getElementById("fact");
+
+    factElement.style.opacity = 0;
+
+    setTimeout(() => {
+        factElement.textContent = facts[factIndex];
+        factElement.style.opacity = 1;
+    }, 400);
+}
+
+document.getElementById("fact").style.transition = "opacity .4s";
+
+setInterval(rotateFact, 15000);
+
+</script>
+
+</body>
+</html>
