@@ -249,18 +249,42 @@ const facts=[
 ];
 let fi=0; setInterval(()=>{fi=(fi+1)%facts.length; fact.style.opacity=0; setTimeout(()=>{fact.textContent=facts[fi];fact.style.opacity=1},350)},12000);
 
-// Screen rotation - varied content position and imagery helps avoid leaving the same high-contrast elements static all day.
-const screens=[...document.querySelectorAll(".screen")];
-let si=0, timer=null;
+// Reliable screen rotation for TV and digital-signage browsers.
+const screens = Array.from(document.querySelectorAll(".screen"));
+let si = 0;
+const ROTATE_EVERY_MS = 30000;
+
 function showScreen(i){
-  screens.forEach((s,n)=>s.classList.toggle("active",n===i));
-  const dur=Number(screens[i].dataset.duration||25000);
-  const p=document.getElementById("progress");
-  p.style.transition="none"; p.style.width="0";
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{p.style.transition=`width ${dur}ms linear`;p.style.width="100%"}));
-  clearTimeout(timer); timer=setTimeout(()=>{si=(i+1)%screens.length;showScreen(si)},dur);
+  screens.forEach((screen, n) => {
+    if (n === i) {
+      screen.classList.add("active");
+      screen.style.opacity = "1";
+      screen.style.visibility = "visible";
+      screen.style.zIndex = "2";
+    } else {
+      screen.classList.remove("active");
+      screen.style.opacity = "0";
+      screen.style.visibility = "hidden";
+      screen.style.zIndex = "1";
+    }
+  });
+
+  const p = document.getElementById("progress");
+  if (p) {
+    p.style.transition = "none";
+    p.style.width = "0";
+    setTimeout(() => {
+      p.style.transition = `width ${ROTATE_EVERY_MS}ms linear`;
+      p.style.width = "100%";
+    }, 50);
+  }
 }
+
 showScreen(0);
+setInterval(() => {
+  si = (si + 1) % screens.length;
+  showScreen(si);
+}, ROTATE_EVERY_MS);
 </script>
 </body>
 </html>
