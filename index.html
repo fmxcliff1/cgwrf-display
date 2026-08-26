@@ -4,539 +4,263 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CGWRF Office Display</title>
-
 <style>
-    * {
-        box-sizing: border-box;
-    }
-
-    html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        font-family: Arial, Helvetica, sans-serif;
-        background: #07131c;
-        color: white;
-    }
-
-    body {
-        background:
-            radial-gradient(circle at 75% 20%, rgba(38, 126, 156, .28), transparent 35%),
-            linear-gradient(135deg, #07131c 0%, #0b2532 55%, #123848 100%);
-    }
-
-    .dashboard {
-        width: 100vw;
-        height: 100vh;
-        display: grid;
-        grid-template-rows: 18% 56% 26%;
-        padding: 2.2vh 2.2vw;
-        gap: 1.5vh;
-    }
-
-    /* HEADER */
-    .header {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: center;
-        border-bottom: 2px solid rgba(255,255,255,.14);
-        padding-bottom: 1vh;
-    }
-
-    .facility-title {
-        font-size: 3.1vw;
-        font-weight: 700;
-        letter-spacing: .02em;
-    }
-
-    .facility-subtitle {
-        font-size: 1.35vw;
-        opacity: .75;
-        margin-top: .5vh;
-        letter-spacing: .08em;
-        text-transform: uppercase;
-    }
-
-    .clock-area {
-        text-align: right;
-    }
-
-    #clock {
-        font-size: 3.7vw;
-        font-weight: 300;
-        line-height: 1;
-    }
-
-    #date {
-        margin-top: .8vh;
-        font-size: 1.25vw;
-        opacity: .75;
-    }
-
-    /* CENTER */
-    .main {
-        display: grid;
-        grid-template-columns: 36% 1fr;
-        gap: 1.5vw;
-    }
-
-    .card {
-        background: rgba(255,255,255,.07);
-        border: 1px solid rgba(255,255,255,.12);
-        border-radius: 1.2vw;
-        box-shadow: 0 12px 28px rgba(0,0,0,.18);
-    }
-
-    .weather-card {
-        padding: 2vh 2vw;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .location {
-        font-size: 1.5vw;
-        opacity: .76;
-        margin-bottom: .6vh;
-    }
-
-    .weather-current {
-        display: flex;
-        align-items: center;
-        gap: 1.2vw;
-    }
-
-    #temp {
-        font-size: 7vw;
-        font-weight: 300;
-        line-height: .95;
-    }
-
-    #weatherIcon {
-        font-size: 4.5vw;
-    }
-
-    #conditions {
-        margin-top: 1vh;
-        font-size: 1.8vw;
-        font-weight: 600;
-    }
-
-    .weather-details {
-        margin-top: 2.3vh;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1vh;
-        font-size: 1.25vw;
-        opacity: .84;
-    }
-
-    /* FEATURE / IMAGE AREA */
-    .feature-card {
-        position: relative;
-        overflow: hidden;
-        padding: 0;
-        background:
-            linear-gradient(rgba(0,0,0,.18), rgba(0,0,0,.52)),
-            linear-gradient(135deg, #15728b, #0b3848 55%, #07131c);
-    }
-
-    .feature-content {
-        position: absolute;
-        left: 2vw;
-        right: 2vw;
-        bottom: 2.2vh;
-    }
-
-    .feature-label {
-        text-transform: uppercase;
-        letter-spacing: .13em;
-        font-size: 1vw;
-        opacity: .72;
-        margin-bottom: 1vh;
-    }
-
-    .feature-title {
-        font-size: 3vw;
-        line-height: 1.08;
-        font-weight: 700;
-        max-width: 90%;
-    }
-
-    .feature-description {
-        margin-top: 1.4vh;
-        font-size: 1.35vw;
-        line-height: 1.4;
-        max-width: 85%;
-        opacity: .87;
-    }
-
-    /* BOTTOM */
-    .bottom {
-        display: grid;
-        grid-template-columns: 58% 1fr;
-        gap: 1.5vw;
-    }
-
-    .forecast {
-        padding: 1.5vh 1.4vw;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        align-items: center;
-    }
-
-    .forecast-day {
-        text-align: center;
-        border-right: 1px solid rgba(255,255,255,.12);
-    }
-
-    .forecast-day:last-child {
-        border-right: none;
-    }
-
-    .forecast-name {
-        font-size: 1.05vw;
-        text-transform: uppercase;
-        opacity: .65;
-        letter-spacing: .06em;
-    }
-
-    .forecast-icon {
-        font-size: 2.1vw;
-        margin: .8vh 0;
-    }
-
-    .forecast-temp {
-        font-size: 1.35vw;
-        font-weight: 600;
-    }
-
-    .forecast-low {
-        opacity: .55;
-        margin-left: .25vw;
-    }
-
-    .fact-card {
-        padding: 1.8vh 1.5vw;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .fact-label {
-        color: #74d6ee;
-        font-size: 1vw;
-        text-transform: uppercase;
-        letter-spacing: .15em;
-        font-weight: 700;
-        margin-bottom: 1vh;
-    }
-
-    #fact {
-        font-size: 1.35vw;
-        line-height: 1.45;
-    }
-
-    .footer {
-        position: fixed;
-        bottom: .7vh;
-        right: 1.2vw;
-        font-size: .7vw;
-        opacity: .34;
-    }
-
-    .error {
-        color: #ffd36a;
-        font-size: 1.2vw;
-    }
+:root{
+  --navy:#07131c; --navy2:#0b2532; --teal:#2c8ea7; --cyan:#75d7ec;
+  --white:#f6fbff; --muted:#b8cbd3; --glass:rgba(7,19,28,.78);
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;color:var(--white);
+  font-family:Arial,Helvetica,sans-serif}
+#app{position:relative;width:100vw;height:100vh;background:#07131c}
+.screen{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1.25s ease;overflow:hidden}
+.screen.active{opacity:1;visibility:visible}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,15,23,.86) 0%,rgba(4,15,23,.58) 45%,rgba(4,15,23,.16) 76%,rgba(4,15,23,.05) 100%)}
+.brand{height:7.8vh;max-width:25vw;object-fit:contain}
+.eyebrow{font-size:1.0vw;text-transform:uppercase;letter-spacing:.18em;color:#7bdcf2;font-weight:700}
+.bigtitle{font-size:4.25vw;line-height:1.02;font-weight:750;letter-spacing:-.025em}
+.bodycopy{font-size:1.45vw;line-height:1.45;color:#d8e6eb;max-width:52vw}
+.panel{background:rgba(8,26,36,.72);border:1px solid rgba(255,255,255,.14);border-radius:1.2vw;
+  box-shadow:0 16px 42px rgba(0,0,0,.22);backdrop-filter:blur(4px)}
+/* Dashboard */
+.dashboard{height:100%;display:grid;grid-template-rows:14% 58% 24%;gap:1.5vh;padding:2vh 2.2vw;
+ background:radial-gradient(circle at 78% 18%,rgba(36,139,169,.3),transparent 36%),
+ linear-gradient(135deg,#06121a,#0a2431 56%,#123848)}
+.dash-head{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid rgba(255,255,255,.13);
+ padding-bottom:1vh}
+.dash-brand{display:flex;align-items:center;gap:1.2vw}
+.dash-brand .brand{height:8.5vh;width:19vw}
+.clock{text-align:right}
+#clock{font-size:3.6vw;line-height:.92;font-weight:300}
+#date{font-size:1.1vw;margin-top:.7vh;color:#c2d3da}
+.dash-main{display:grid;grid-template-columns:34% 1fr;gap:1.4vw}
+.weather{padding:2vh 1.8vw;display:flex;flex-direction:column;justify-content:center}
+.location{font-size:1.35vw;color:#c9d9df}
+.current{display:flex;align-items:center;gap:1.2vw;margin-top:.5vh}
+#temp{font-size:6.6vw;font-weight:300;line-height:.9}
+#weatherIcon{font-size:4.25vw}
+#conditions{font-size:1.65vw;font-weight:700;margin-top:1vh}
+.weather-details{display:grid;grid-template-columns:1fr 1fr;gap:.8vh 1vw;font-size:1.1vw;color:#c7d9df;margin-top:2vh}
+.hero{position:relative;overflow:hidden;background:url('assets/facility-overview.jpg') center/cover}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,19,28,.88),rgba(5,19,28,.52) 56%,rgba(5,19,28,.12))}
+.hero-copy{position:absolute;z-index:2;left:2vw;right:2vw;bottom:2.4vh}
+.hero-copy .bigtitle{font-size:2.8vw;max-width:46vw}
+.hero-copy .bodycopy{font-size:1.15vw;max-width:45vw;margin-top:1.2vh}
+.dash-bottom{display:grid;grid-template-columns:59% 1fr;gap:1.4vw}
+.forecast{display:grid;grid-template-columns:repeat(5,1fr);padding:1.3vh 1vw;align-items:center}
+.forecast-day{text-align:center;border-right:1px solid rgba(255,255,255,.11)}
+.forecast-day:last-child{border-right:0}
+.forecast-name{font-size:.95vw;text-transform:uppercase;color:#adc4cd;letter-spacing:.07em}
+.forecast-icon{font-size:1.9vw;margin:.6vh 0}
+.forecast-temp{font-size:1.2vw;font-weight:700}
+.forecast-low{color:#9eb3bc;margin-left:.25vw}
+.fact{padding:1.5vh 1.5vw;display:flex;flex-direction:column;justify-content:center}
+.fact-label{font-size:.9vw;color:#78d9ee;text-transform:uppercase;letter-spacing:.16em;font-weight:700;margin-bottom:.8vh}
+#fact{font-size:1.17vw;line-height:1.42;transition:opacity .4s}
+.footer{position:absolute;bottom:.65vh;right:1vw;font-size:.62vw;color:rgba(255,255,255,.34)}
+/* Photo screens */
+.photo-content{position:absolute;left:4vw;bottom:6vh;z-index:3;max-width:57vw}
+.photo-title{font-size:4.7vw;line-height:1;font-weight:750;letter-spacing:-.03em;margin:.8vh 0 1.2vh}
+.photo-caption{font-size:1.55vw;line-height:1.4;color:#dce8ed}
+.photo-logo{position:absolute;right:3vw;top:3.4vh;z-index:3;width:20vw;max-height:10vh;object-fit:contain}
+/* Stats */
+.stats-wrap{position:absolute;inset:0;padding:5vh 4vw;display:grid;grid-template-columns:43% 1fr;gap:3vw;align-items:center;z-index:2}
+.stats-intro{padding-right:1vw}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4vw}
+.stat{padding:2.2vh 1.6vw;background:rgba(4,16,24,.76);border:1px solid rgba(255,255,255,.15);border-radius:1vw}
+.stat-num{font-size:3.65vw;font-weight:800;line-height:.95;color:#fff}
+.stat-label{font-size:1.12vw;margin-top:.8vh;color:#c9dce3;line-height:1.25}
+/* Process schematic */
+.process{background:#eee9e0}
+.process img{width:100%;height:100%;object-fit:contain}
+.process-head{position:absolute;left:3vw;top:2.6vh;z-index:2;background:rgba(7,19,28,.92);
+ padding:1.2vh 1.4vw;border-radius:.7vw;color:#fff}
+.process-head strong{font-size:1.65vw}
+.process-head span{display:block;font-size:.9vw;color:#98dff0;margin-top:.3vh;text-transform:uppercase;letter-spacing:.12em}
+/* Treatment screen */
+.treatment{background:linear-gradient(145deg,#07131c,#0b2938 60%,#14485b)}
+.treat-wrap{height:100%;padding:5vh 4vw;display:grid;grid-template-rows:auto 1fr;gap:3vh}
+.treat-head{display:flex;align-items:center;justify-content:space-between}
+.treat-head .brand{height:8vh}
+.treat-title{font-size:3.4vw;font-weight:750}
+.treat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.7vw}
+.treat-card{padding:2.4vh 1.7vw;display:flex;flex-direction:column;justify-content:center}
+.treat-icon{font-size:3.6vw}
+.treat-name{font-size:2.2vw;font-weight:750;margin:1.4vh 0 .9vh}
+.treat-text{font-size:1.25vw;line-height:1.45;color:#cbdde4}
+/* Solar */
+.solar-copy{position:absolute;left:4vw;top:7vh;z-index:3;width:43vw}
+.solar-kicker{font-size:1.05vw;color:#7edcf0;text-transform:uppercase;letter-spacing:.16em;font-weight:700}
+.solar-title{font-size:4.5vw;line-height:1;font-weight:800;margin:1vh 0 2vh}
+.solar-facts{display:flex;gap:1.2vw;flex-wrap:wrap}
+.solar-chip{background:rgba(5,18,27,.82);border:1px solid rgba(255,255,255,.16);padding:1.5vh 1.2vw;border-radius:.8vw}
+.solar-chip b{font-size:2.4vw;display:block}
+.solar-chip span{font-size:1vw;color:#c8dce3}
+.progress{position:absolute;left:0;bottom:0;height:3px;background:rgba(117,215,236,.85);z-index:10;width:0}
+@media (max-aspect-ratio: 4/3){.bigtitle{font-size:5vw}}
 </style>
 </head>
-
 <body>
+<div id="app">
 
-<div class="dashboard">
-
-    <header class="header">
-        <div>
-            <div class="facility-title">Water Reclamation Facility</div>
-            <div class="facility-subtitle">City of Casa Grande • Public Works</div>
-        </div>
-
-        <div class="clock-area">
-            <div id="clock">--:--</div>
-            <div id="date">Loading...</div>
-        </div>
+<section class="screen active" data-duration="60000">
+  <div class="dashboard">
+    <header class="dash-head">
+      <div class="dash-brand">
+        <img class="brand" src="assets/cg-wastewater-white.png" alt="City of Casa Grande Wastewater">
+      </div>
+      <div class="clock"><div id="clock">--:--</div><div id="date">Loading...</div></div>
     </header>
-
-    <main class="main">
-
-        <section class="card weather-card">
-            <div class="location">📍 Casa Grande, Arizona</div>
-
-            <div class="weather-current">
-                <div id="temp">--°</div>
-                <div id="weatherIcon">☀️</div>
-            </div>
-
-            <div id="conditions">Loading weather...</div>
-
-            <div class="weather-details">
-                <div>Feels Like: <strong id="feels">--°</strong></div>
-                <div>Humidity: <strong id="humidity">--%</strong></div>
-                <div>Wind: <strong id="wind">-- mph</strong></div>
-                <div>Today: <strong id="todayHighLow">--° / --°</strong></div>
-            </div>
-        </section>
-
-        <section class="card feature-card">
-            <div class="feature-content">
-                <div class="feature-label">Serving Casa Grande</div>
-
-                <div class="feature-title">
-                    Protecting Public Health.<br>
-                    Conserving Water.<br>
-                    Supporting Our Community.
-                </div>
-
-                <div class="feature-description">
-                    The Water Reclamation Facility protects public health and the environment every day by using science, advanced technology, and skilled operators
-                    to safely treat millions of gallons of wastewater and transform it into a valuable reclaimed water resource for our community.
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <section class="bottom">
-
-        <div class="card forecast" id="forecast">
-            <div class="forecast-day">Loading forecast...</div>
+    <div class="dash-main">
+      <div class="panel weather">
+        <div class="location">📍 Casa Grande, Arizona</div>
+        <div class="current"><div id="temp">--°</div><div id="weatherIcon">☀️</div></div>
+        <div id="conditions">Loading weather...</div>
+        <div class="weather-details">
+          <div>Feels Like: <strong id="feels">--°</strong></div>
+          <div>Humidity: <strong id="humidity">--%</strong></div>
+          <div>Wind: <strong id="wind">-- mph</strong></div>
+          <div>Today: <strong id="todayHighLow">--° / --°</strong></div>
         </div>
-
-        <div class="card fact-card">
-            <div class="fact-label">Did You Know?</div>
-            <div id="fact">
-                Wastewater treatment protects public health and helps preserve Arizona's valuable water resources.
-            </div>
+      </div>
+      <div class="panel hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Serving Casa Grande</div>
+          <div class="bigtitle">Protecting Public Health.<br>Conserving Water.<br>Supporting Our Community.</div>
+          <div class="bodycopy">Our Water Reclamation Facility uses science, advanced technology and skilled operators to safely treat wastewater and produce a valuable reclaimed-water resource.</div>
         </div>
+      </div>
+    </div>
+    <div class="dash-bottom">
+      <div class="panel forecast" id="forecast"><div class="forecast-day">Loading forecast...</div></div>
+      <div class="panel fact"><div class="fact-label">Did You Know?</div><div id="fact">Wastewater treatment protects public health and helps preserve Arizona's water resources.</div></div>
+    </div>
+  </div>
+  <div class="footer">CGWRF Office Information Display</div>
+</section>
 
-    </section>
+<section class="screen process" data-duration="35000">
+  <img src="assets/process-flow.png" alt="City of Casa Grande Water Reclamation Facility process flow diagram">
+  <div class="process-head"><strong>From Collection to Reuse</strong><span>Water Reclamation Facility Process Flow</span></div>
+</section>
 
+<section class="screen" data-duration="30000">
+  <div class="bg" style="background-image:url('assets/facility-overview.jpg')"></div><div class="scrim"></div>
+  <img class="photo-logo" src="assets/cg-wastewater-white.png" alt="">
+  <div class="stats-wrap">
+    <div class="stats-intro">
+      <div class="eyebrow">Wastewater by the numbers</div>
+      <div class="bigtitle">Essential infrastructure. Every day.</div>
+      <div class="bodycopy" style="margin-top:2vh">Treatment, collection, reuse and recharge work together to protect public health and support a growing community.</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-num">18 MGD</div><div class="stat-label">Water Reclamation Facility treatment capacity</div></div>
+      <div class="stat"><div class="stat-num">2.1 BG</div><div class="stat-label">Wastewater treated in 2025</div></div>
+      <div class="stat"><div class="stat-num">400 MG</div><div class="stat-label">Effluent reused by the municipal golf course and SRP in 2025</div></div>
+      <div class="stat"><div class="stat-num">400+ MI</div><div class="stat-label">Sanitary sewer collection system</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" data-duration="25000">
+  <div class="bg" style="background-image:url('assets/biological-process.jpg')"></div><div class="scrim"></div>
+  <div class="photo-content"><div class="eyebrow">Biological Treatment</div><div class="photo-title">Where microorganisms do the heavy lifting.</div>
+  <div class="photo-caption">The activated-sludge process removes organic material and helps convert and remove nitrogen before secondary clarification.</div></div>
+</section>
+
+<section class="screen treatment" data-duration="30000">
+  <div class="treat-wrap">
+    <div class="treat-head"><div><div class="eyebrow">How wastewater is treated</div><div class="treat-title">Three complementary treatment methods</div></div><img class="brand" src="assets/cg-wastewater-white.png" alt=""></div>
+    <div class="treat-grid">
+      <div class="panel treat-card"><div class="treat-icon">⚙️</div><div class="treat-name">Physical</div><div class="treat-text">Screens, pumps and grit removal physically separate large debris, sand and other material to protect downstream equipment.</div></div>
+      <div class="panel treat-card"><div class="treat-icon">🦠</div><div class="treat-name">Biological</div><div class="treat-text">Naturally occurring microorganisms break down organic material and support nitrogen removal in the activated-sludge process.</div></div>
+      <div class="panel treat-card"><div class="treat-icon">💧</div><div class="treat-name">Chemical</div><div class="treat-text">Chemical treatment supports disinfection and final water-quality requirements before reclaimed water is reused or discharged.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" data-duration="25000">
+  <div class="bg" style="background-image:url('assets/recharge-ponds.jpg')"></div><div class="scrim"></div>
+  <img class="photo-logo" src="assets/cg-wastewater-white.png" alt="">
+  <div class="photo-content"><div class="eyebrow">Water Reuse & Recharge</div><div class="photo-title">Giving water another purpose.</div>
+  <div class="photo-caption">Reclaimed water supports reuse opportunities, while the managed recharge system stores water in the groundwater basin for long-term storage credits.</div></div>
+</section>
+
+<section class="screen" data-duration="30000">
+  <div class="bg" style="background-image:url('assets/facility-solar-wide.jpg')"></div><div class="scrim"></div>
+  <div class="solar-copy"><div class="solar-kicker">Energy at the WRF</div><div class="solar-title">Solar power supporting wastewater operations.</div>
+    <div class="solar-facts">
+      <div class="solar-chip"><b>1.68 MW</b><span>Solar project</span></div>
+      <div class="solar-chip"><b>~$30K/mo.</b><span>Approximate reduction in power cost observed</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" data-duration="25000">
+  <div class="bg" style="background-image:url('assets/facility-solar-overview.jpg')"></div><div class="scrim"></div>
+  <div class="photo-content"><div class="eyebrow">A Growing Community</div><div class="photo-title">Infrastructure built to serve Casa Grande.</div>
+  <div class="photo-caption">Wastewater treatment, collections, water reuse, energy and long-term planning are all part of keeping essential services reliable.</div></div>
+</section>
+
+<div class="progress" id="progress"></div>
 </div>
 
-<div class="footer">CGWRF Office Information Display</div>
-
 <script>
-/* ---------------- CLOCK ---------------- */
-
-function updateClock() {
-    const now = new Date();
-
-    document.getElementById("clock").textContent =
-        now.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit"
-        });
-
-    document.getElementById("date").textContent =
-        now.toLocaleDateString("en-US", {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-        });
+const latitude=32.8795, longitude=-111.7574;
+function updateClock(){
+  const now=new Date();
+  document.getElementById("clock").textContent=now.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
+  document.getElementById("date").textContent=now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});
 }
+updateClock(); setInterval(updateClock,1000);
 
-updateClock();
-setInterval(updateClock, 1000);
-
-
-/* ---------------- WEATHER ---------------- */
-
-/*
-Casa Grande approximate coordinates.
-Weather data supplied by Open-Meteo.
-No API key required.
-*/
-
-const latitude = 32.8795;
-const longitude = -111.7574;
-
-function weatherDescription(code) {
-
-    const map = {
-        0: ["Clear", "☀️"],
-        1: ["Mostly Clear", "🌤️"],
-        2: ["Partly Cloudy", "⛅"],
-        3: ["Cloudy", "☁️"],
-        45: ["Fog", "🌫️"],
-        48: ["Fog", "🌫️"],
-        51: ["Light Drizzle", "🌦️"],
-        53: ["Drizzle", "🌦️"],
-        55: ["Heavy Drizzle", "🌧️"],
-        61: ["Light Rain", "🌦️"],
-        63: ["Rain", "🌧️"],
-        65: ["Heavy Rain", "🌧️"],
-        71: ["Light Snow", "🌨️"],
-        73: ["Snow", "🌨️"],
-        75: ["Heavy Snow", "❄️"],
-        80: ["Rain Showers", "🌦️"],
-        81: ["Rain Showers", "🌧️"],
-        82: ["Heavy Showers", "⛈️"],
-        95: ["Thunderstorms", "⛈️"],
-        96: ["Thunderstorms", "⛈️"],
-        99: ["Severe Thunderstorms", "⛈️"]
-    };
-
-    return map[code] || ["Conditions", "🌤️"];
+function weatherDescription(code){
+ const m={0:["Clear","☀️"],1:["Mostly Clear","🌤️"],2:["Partly Cloudy","⛅"],3:["Cloudy","☁️"],45:["Fog","🌫️"],48:["Fog","🌫️"],51:["Light Drizzle","🌦️"],53:["Drizzle","🌦️"],55:["Heavy Drizzle","🌧️"],61:["Light Rain","🌦️"],63:["Rain","🌧️"],65:["Heavy Rain","🌧️"],71:["Light Snow","🌨️"],73:["Snow","🌨️"],75:["Heavy Snow","❄️"],80:["Rain Showers","🌦️"],81:["Rain Showers","🌧️"],82:["Heavy Showers","⛈️"],95:["Thunderstorms","⛈️"],96:["Thunderstorms","⛈️"],99:["Severe Thunderstorms","⛈️"]};
+ return m[code]||["Conditions","🌤️"];
 }
-
-
-async function loadWeather() {
-
-    const url =
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}` +
-        `&longitude=${longitude}` +
-        `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m` +
-        `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
-        `&temperature_unit=fahrenheit` +
-        `&wind_speed_unit=mph` +
-        `&timezone=America%2FPhoenix` +
-        `&forecast_days=5`;
-
-    try {
-
-        const response = await fetch(url);
-        const data = await response.json();
-
-        const current = data.current;
-        const description = weatherDescription(current.weather_code);
-
-        document.getElementById("temp").textContent =
-            Math.round(current.temperature_2m) + "°";
-
-        document.getElementById("weatherIcon").textContent =
-            description[1];
-
-        document.getElementById("conditions").textContent =
-            description[0];
-
-        document.getElementById("feels").textContent =
-            Math.round(current.apparent_temperature) + "°";
-
-        document.getElementById("humidity").textContent =
-            Math.round(current.relative_humidity_2m) + "%";
-
-        document.getElementById("wind").textContent =
-            Math.round(current.wind_speed_10m) + " mph";
-
-        document.getElementById("todayHighLow").textContent =
-            Math.round(data.daily.temperature_2m_max[0]) +
-            "° / " +
-            Math.round(data.daily.temperature_2m_min[0]) +
-            "°";
-
-        buildForecast(data.daily);
-
-    } catch (error) {
-
-        document.getElementById("conditions").innerHTML =
-            '<span class="error">Weather temporarily unavailable</span>';
-
-    }
+async function loadWeather(){
+ const url=`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FPhoenix&forecast_days=5`;
+ try{
+   const r=await fetch(url); const data=await r.json(); const c=data.current; const d=weatherDescription(c.weather_code);
+   temp.textContent=Math.round(c.temperature_2m)+"°"; weatherIcon.textContent=d[1]; conditions.textContent=d[0];
+   feels.textContent=Math.round(c.apparent_temperature)+"°"; humidity.textContent=Math.round(c.relative_humidity_2m)+"%";
+   wind.textContent=Math.round(c.wind_speed_10m)+" mph"; todayHighLow.textContent=Math.round(data.daily.temperature_2m_max[0])+"° / "+Math.round(data.daily.temperature_2m_min[0])+"°";
+   forecast.innerHTML="";
+   data.daily.time.forEach((t,i)=>{
+      const date=new Date(t+"T12:00:00"), w=weatherDescription(data.daily.weather_code[i]);
+      const div=document.createElement("div"); div.className="forecast-day";
+      div.innerHTML=`<div class="forecast-name">${i===0?"Today":date.toLocaleDateString("en-US",{weekday:"short"})}</div><div class="forecast-icon">${w[1]}</div><div class="forecast-temp">${Math.round(data.daily.temperature_2m_max[i])}° <span class="forecast-low">${Math.round(data.daily.temperature_2m_min[i])}°</span></div>`;
+      forecast.appendChild(div);
+   });
+ }catch(e){conditions.textContent="Weather temporarily unavailable";}
 }
+loadWeather(); setInterval(loadWeather,15*60*1000);
 
-
-function buildForecast(daily) {
-
-    const forecast = document.getElementById("forecast");
-    forecast.innerHTML = "";
-
-    for (let i = 0; i < daily.time.length; i++) {
-
-        const date = new Date(daily.time[i] + "T12:00:00");
-
-        const dayName =
-            date.toLocaleDateString("en-US", {
-                weekday: "short"
-            });
-
-        const weather = weatherDescription(daily.weather_code[i]);
-
-        const div = document.createElement("div");
-        div.className = "forecast-day";
-
-        div.innerHTML = `
-            <div class="forecast-name">${i === 0 ? "Today" : dayName}</div>
-            <div class="forecast-icon">${weather[1]}</div>
-            <div class="forecast-temp">
-                ${Math.round(daily.temperature_2m_max[i])}°
-                <span class="forecast-low">
-                    ${Math.round(daily.temperature_2m_min[i])}°
-                </span>
-            </div>
-        `;
-
-        forecast.appendChild(div);
-    }
-}
-
-
-/* Refresh weather every 15 minutes */
-
-loadWeather();
-setInterval(loadWeather, 15 * 60 * 1000);
-
-
-/* ---------------- ROTATING FACTS ---------------- */
-
-const facts = [
-
-    "Wastewater treatment protects public health and helps preserve Arizona's valuable water resources.",
-
-    "Reclaimed water gives treated wastewater a second life and reduces demand on potable water supplies.",
-
-    "Wastewater operators monitor treatment processes around the clock to ensure safe and reliable operation.",
-
-    "Biological treatment uses naturally occurring microorganisms to remove pollutants from wastewater.",
-
-    "Every gallon of water that can be safely reused helps strengthen Casa Grande's long-term water sustainability.",
-
-    "Modern wastewater treatment combines biology, chemistry, engineering, automation and environmental science.",
-
-    "The water that leaves a reclamation facility is dramatically cleaner than the wastewater that entered it.",
-
-    "Reliable wastewater infrastructure is essential to public health, economic development and community growth.",
-   
-    "The Water Reclamation Facility treats approximately 6 million gallons of wastewater daily.",
-
-    "The Wastewater Collections System consists of over 6,000 manholes and more than 330 miles of pipe."
-
+const facts=[
+ "The Water Reclamation Facility has an 18 MGD treatment capacity.",
+ "Casa Grande treated 2.1 billion gallons of wastewater in 2025.",
+ "About 400 million gallons of effluent were reused by the municipal golf course and SRP in 2025.",
+ "Casa Grande maintains more than 400 miles of sanitary sewer.",
+ "The collection system includes 5,775 manholes and seven sewage lift stations.",
+ "Tertiary filtration helps produce high-quality Class A+ reclaimed water.",
+ "The managed recharge facility can store up to 3,500 acre-feet of water annually for long-term storage credits.",
+ "The WRF solar project is rated at 1.68 MW."
 ];
+let fi=0; setInterval(()=>{fi=(fi+1)%facts.length; fact.style.opacity=0; setTimeout(()=>{fact.textContent=facts[fi];fact.style.opacity=1},350)},12000);
 
-let factIndex = 0;
-
-function rotateFact() {
-
-    factIndex = (factIndex + 1) % facts.length;
-
-    const factElement = document.getElementById("fact");
-
-    factElement.style.opacity = 0;
-
-    setTimeout(() => {
-        factElement.textContent = facts[factIndex];
-        factElement.style.opacity = 1;
-    }, 400);
+// Screen rotation - varied content position and imagery helps avoid leaving the same high-contrast elements static all day.
+const screens=[...document.querySelectorAll(".screen")];
+let si=0, timer=null;
+function showScreen(i){
+  screens.forEach((s,n)=>s.classList.toggle("active",n===i));
+  const dur=Number(screens[i].dataset.duration||25000);
+  const p=document.getElementById("progress");
+  p.style.transition="none"; p.style.width="0";
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{p.style.transition=`width ${dur}ms linear`;p.style.width="100%"}));
+  clearTimeout(timer); timer=setTimeout(()=>{si=(i+1)%screens.length;showScreen(si)},dur);
 }
-
-document.getElementById("fact").style.transition = "opacity .4s";
-
-setInterval(rotateFact, 15000);
-
+showScreen(0);
 </script>
-
 </body>
 </html>
