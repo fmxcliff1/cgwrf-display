@@ -73,11 +73,22 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;col
 .stat-label{font-size:1.12vw;margin-top:.8vh;color:#c9dce3;line-height:1.25}
 /* Process schematic */
 .process{background:#eee9e0}
-.process img{width:100%;height:100%;object-fit:contain}
-.process-head{position:absolute;left:3vw;top:2.6vh;z-index:2;background:rgba(7,19,28,.92);
- padding:1.2vh 1.4vw;border-radius:.7vw;color:#fff}
-.process-head strong{font-size:1.65vw}
-.process-head span{display:block;font-size:.9vw;color:#98dff0;margin-top:.3vh;text-transform:uppercase;letter-spacing:.12em}
+.process img{
+  position:absolute;
+  left:-5%;
+  top:-5%;
+  width:110%;
+  height:110%;
+  object-fit:contain;
+  transform:scale(1.06);
+  transform-origin:center;
+}
+.process-head{
+  position:absolute;left:1.6vw;top:1.8vh;z-index:2;background:rgba(7,19,28,.92);
+  padding:.9vh 1.05vw;border-radius:.6vw;color:#fff
+}
+.process-head strong{font-size:1.35vw}
+.process-head span{display:block;font-size:.72vw;color:#98dff0;margin-top:.2vh;text-transform:uppercase;letter-spacing:.12em}
 /* Treatment screen */
 .treatment{background:linear-gradient(145deg,#07131c,#0b2938 60%,#14485b)}
 .treat-wrap{height:100%;padding:5vh 4vw;display:grid;grid-template-rows:auto 1fr;gap:3vh}
@@ -104,7 +115,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;col
 <body>
 <div id="app">
 
-<section class="screen active" data-duration="60000">
+<section class="screen active" data-duration="45000">
   <div class="dashboard">
     <header class="dash-head">
       <div class="dash-brand">
@@ -140,12 +151,12 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;col
   <div class="footer">CGWRF Office Information Display</div>
 </section>
 
-<section class="screen process" data-duration="35000">
+<section class="screen process" data-duration="45000">
   <img src="assets/process-flow.png" alt="City of Casa Grande Water Reclamation Facility process flow diagram">
   <div class="process-head"><strong>From Collection to Reuse</strong><span>Water Reclamation Facility Process Flow</span></div>
 </section>
 
-<section class="screen" data-duration="30000">
+<section class="screen" data-duration="35000">
   <div class="bg" style="background-image:url('assets/facility-overview.jpg')"></div><div class="scrim"></div>
   <img class="photo-logo" src="assets/cg-wastewater-white.png" alt="">
   <div class="stats-wrap">
@@ -157,34 +168,19 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;col
     <div class="stats-grid">
       <div class="stat"><div class="stat-num">18 MGD</div><div class="stat-label">Water Reclamation Facility treatment capacity</div></div>
       <div class="stat"><div class="stat-num">2.1 BG</div><div class="stat-label">Wastewater treated in 2025</div></div>
-      <div class="stat"><div class="stat-num">400 MG</div><div class="stat-label">Effluent reused by the municipal golf course and SRP in 2025</div></div>
+      <div class="stat"><div class="stat-num">400 MG</div><div class="stat-label">Effluent reused by Dave White Municipal Golf Course and SRP in 2025</div></div>
       <div class="stat"><div class="stat-num">400+ MI</div><div class="stat-label">Sanitary sewer collection system</div></div>
     </div>
   </div>
 </section>
 
-<section class="screen" data-duration="25000">
-  <div class="bg" style="background-image:url('assets/biological-process.jpg')"></div><div class="scrim"></div>
-  <div class="photo-content"><div class="eyebrow">Biological Treatment</div><div class="photo-title">Where microorganisms do the heavy lifting.</div>
-  <div class="photo-caption">The activated-sludge process removes organic material and helps convert and remove nitrogen before secondary clarification.</div></div>
-</section>
 
-<section class="screen treatment" data-duration="30000">
-  <div class="treat-wrap">
-    <div class="treat-head"><div><div class="eyebrow">How wastewater is treated</div><div class="treat-title">Three complementary treatment methods</div></div><img class="brand" src="assets/cg-wastewater-white.png" alt=""></div>
-    <div class="treat-grid">
-      <div class="panel treat-card"><div class="treat-icon">⚙️</div><div class="treat-name">Physical</div><div class="treat-text">Screens, pumps and grit removal physically separate large debris, sand and other material to protect downstream equipment.</div></div>
-      <div class="panel treat-card"><div class="treat-icon">🦠</div><div class="treat-name">Biological</div><div class="treat-text">Naturally occurring microorganisms break down organic material and support nitrogen removal in the activated-sludge process.</div></div>
-      <div class="panel treat-card"><div class="treat-icon">💧</div><div class="treat-name">Chemical</div><div class="treat-text">Chemical treatment supports disinfection and final water-quality requirements before reclaimed water is reused or discharged.</div></div>
-    </div>
-  </div>
-</section>
 
-<section class="screen" data-duration="25000">
+<section class="screen" data-duration="30000">
   <div class="bg" style="background-image:url('assets/recharge-ponds.jpg')"></div><div class="scrim"></div>
   <img class="photo-logo" src="assets/cg-wastewater-white.png" alt="">
   <div class="photo-content"><div class="eyebrow">Water Reuse & Recharge</div><div class="photo-title">Giving water another purpose.</div>
-  <div class="photo-caption">Reclaimed water supports reuse opportunities, while the managed recharge system stores water in the groundwater basin for long-term storage credits.</div></div>
+  <div class="photo-caption">Reclaimed water supports beneficial reuse throughout our community, while managed recharge helps store water underground and generate long-term storage credits.</div></div>
 </section>
 
 <section class="screen" data-duration="30000">
@@ -192,15 +188,15 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;col
   <div class="solar-copy"><div class="solar-kicker">Energy at the WRF</div><div class="solar-title">Solar power supporting wastewater operations.</div>
     <div class="solar-facts">
       <div class="solar-chip"><b>1.68 MW</b><span>Solar project</span></div>
-      <div class="solar-chip"><b>~$30K/mo.</b><span>Approximate reduction in power cost observed</span></div>
+      <div class="solar-chip"><b>~$30K/mo.</b><span>Approximate reduction in monthly electricity costs</span></div>
     </div>
   </div>
 </section>
 
-<section class="screen" data-duration="25000">
+<section class="screen" data-duration="30000">
   <div class="bg" style="background-image:url('assets/facility-solar-overview.jpg')"></div><div class="scrim"></div>
-  <div class="photo-content"><div class="eyebrow">A Growing Community</div><div class="photo-title">Infrastructure built to serve Casa Grande.</div>
-  <div class="photo-caption">Wastewater treatment, collections, water reuse, energy and long-term planning are all part of keeping essential services reliable.</div></div>
+  <div class="photo-content"><div class="eyebrow">A Growing Community</div><div class="photo-title">Planning today for Casa Grande’s future.</div>
+  <div class="photo-caption">Wastewater infrastructure must grow with our community. Long-term planning helps ensure reliable treatment, collection and water reuse for years to come.</div></div>
 </section>
 
 <div class="progress" id="progress"></div>
@@ -240,7 +236,7 @@ loadWeather(); setInterval(loadWeather,15*60*1000);
 const facts=[
  "The Water Reclamation Facility has an 18 MGD treatment capacity.",
  "Casa Grande treated 2.1 billion gallons of wastewater in 2025.",
- "About 400 million gallons of effluent were reused by the municipal golf course and SRP in 2025.",
+ "About 400 million gallons of effluent were reused by Dave White Municipal Golf Course and SRP in 2025.",
  "Casa Grande maintains more than 400 miles of sanitary sewer.",
  "The collection system includes 5,775 manholes and seven sewage lift stations.",
  "Tertiary filtration helps produce high-quality Class A+ reclaimed water.",
@@ -252,7 +248,7 @@ let fi=0; setInterval(()=>{fi=(fi+1)%facts.length; fact.style.opacity=0; setTime
 // Reliable screen rotation for TV and digital-signage browsers.
 const screens = Array.from(document.querySelectorAll(".screen"));
 let si = 0;
-const ROTATE_EVERY_MS = 30000;
+let rotationTimer = null;
 
 function showScreen(i){
   screens.forEach((screen, n) => {
@@ -269,22 +265,25 @@ function showScreen(i){
     }
   });
 
+  const duration = Number(screens[i].dataset.duration || 30000);
   const p = document.getElementById("progress");
   if (p) {
     p.style.transition = "none";
     p.style.width = "0";
     setTimeout(() => {
-      p.style.transition = `width ${ROTATE_EVERY_MS}ms linear`;
+      p.style.transition = `width ${duration}ms linear`;
       p.style.width = "100%";
     }, 50);
   }
+
+  clearTimeout(rotationTimer);
+  rotationTimer = setTimeout(() => {
+    si = (i + 1) % screens.length;
+    showScreen(si);
+  }, duration);
 }
 
 showScreen(0);
-setInterval(() => {
-  si = (si + 1) % screens.length;
-  showScreen(si);
-}, ROTATE_EVERY_MS);
 </script>
 </body>
 </html>
