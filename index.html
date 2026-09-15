@@ -141,21 +141,21 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;col
 .birthday-sub{font-size:1.55vw;color:#d8e6eb;margin-top:2vh}
 .dynamic-foot{position:absolute;left:4vw;bottom:1.3vh;font-size:.72vw;color:rgba(255,255,255,.42)}
 
-
-/* === Sports v2 === */
+/* === Sports v3 === */
 .sports-list{display:grid;grid-template-rows:repeat(4,1fr);gap:1.1vh}
-.sports-team{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.2vw;padding:1.35vh 1.5vw}
+.sports-team{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.2vw;padding:1.18vh 1.45vw}
 .team-logo-wrap{width:4.2vw;height:4.2vw;display:flex;align-items:center;justify-content:center}
 .team-logo{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
 .team-logo-fallback{width:3.7vw;height:3.7vw;border-radius:50%;display:flex;align-items:center;justify-content:center;
   background:rgba(117,215,236,.12);border:1px solid rgba(117,215,236,.35);font-size:1.25vw;font-weight:800;color:#9ee7f7}
-.sports-matchup{font-size:1.58vw;font-weight:780;line-height:1.08}
-.sports-status{font-size:.98vw;color:#bcd1d9;margin-top:.5vh}
-.sports-score{font-size:1.85vw;font-weight:850;text-align:right;margin-left:1vw;color:#f6fbff}
-.sports-score.live{color:#79e8a7}
-.sports-score.final{color:#9fe2ef}
-.sports-score.next{color:#f6fbff}
-
+.sports-team-name{font-size:1.48vw;font-weight:820;line-height:1.05}
+.sports-line{font-size:.9vw;color:#c4d7df;margin-top:.42vh;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sports-line b{font-size:.72vw;color:#78d9ee;letter-spacing:.07em;margin-right:.35vw}
+.sports-line.live-line{color:#dff9e8}.sports-line.live-line b{color:#79e8a7}
+.sports-record{text-align:right;min-width:5.6vw;margin-left:.5vw}
+.sports-record-value{font-size:1.75vw;font-weight:850;line-height:1;color:#f6fbff}
+.sports-record-label{font-size:.62vw;text-transform:uppercase;letter-spacing:.12em;color:#8daab5;margin-top:.45vh}
+.sports-live-badge{font-size:.7vw;font-weight:850;color:#79e8a7;letter-spacing:.1em;margin-bottom:.45vh}
 
 /* === Headlines === */
 #headlineTitle{transition:opacity .35s ease;font-size:2.15vw;line-height:1.18}
@@ -228,10 +228,10 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;col
 <section class="screen dynamic" data-duration="60000" data-dynamic="glance">
 <div class="dynamic-wrap"><header class="dynamic-head"><img class="brand" src="assets/cg-wastewater-white.png" alt=""><div class="dynamic-date" id="glanceDate"></div></header>
 <div class="glance-grid">
-<div class="panel glance-card" style="display:flex;flex-direction:column;justify-content:center"><div class="glance-label">Today’s Headlines</div><div class="glance-value" id="headlineTitle">Loading current headlines...</div><div class="glance-sub" id="headlineSource">Local • Arizona • National</div></div>
+<div class="panel glance-card" style="display:flex;flex-direction:column;justify-content:center"><div class="glance-label">Local &amp; Arizona News</div><div class="glance-value" id="headlineTitle">Loading current headlines...</div><div class="glance-sub" id="headlineSource">Trusted local and Arizona sources</div></div>
 <div class="glance-stack">
 <div class="panel glance-card"><div class="glance-label">WRF Snapshot</div><div class="glance-value">18 MGD Capacity</div><div class="glance-sub">Protecting public health while producing a valuable reclaimed-water resource.</div></div>
-<div class="panel glance-card"><div class="glance-label">Arizona Sports</div><div class="glance-value" id="glanceSports">Checking today's games...</div><div class="glance-sub" id="glanceSportsSub">Diamondbacks • Cardinals • Suns • ASU</div></div>
+<div class="panel glance-card"><div class="glance-label">Arizona Sports</div><div class="glance-value" id="glanceSports">Checking team updates...</div><div class="glance-sub" id="glanceSportsSub">Diamondbacks • Cardinals • Suns • ASU</div></div>
 <div class="panel glance-card"><div class="glance-label">Something New</div><div class="glance-value" id="glanceFact">A fresh fact will appear here.</div></div>
 </div></div></div><div class="dynamic-foot">Live information requires an internet connection.</div></section>
 
@@ -258,8 +258,8 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;col
 
 <section class="screen dynamic" data-duration="60000" data-dynamic="sports">
 <div class="dynamic-wrap"><header class="dynamic-head"><img class="brand" src="assets/cg-wastewater-white.png" alt=""><div class="dynamic-date" id="sportsDate"></div></header>
-<div class="sports-layout"><div class="panel sports-hero"><div class="sports-label">Arizona Sports</div><div class="sports-title">Today's<br>Scoreboard.</div><div class="sports-note">Recent results and upcoming games for teams around Arizona. Updates automatically when live sports data is available.</div></div>
-<div class="sports-list" id="sportsList"><div class="panel sports-team"><div><div class="sports-name">Loading Arizona sports…</div><div class="sports-status">Checking schedules and scores</div></div><div class="sports-score">—</div></div></div>
+<div class="sports-layout"><div class="panel sports-hero"><div class="sports-label">Arizona Sports</div><div class="sports-title">Team<br>Tracker.</div><div class="sports-note">Current records, the latest result and what’s next for Arizona teams. Live games take over automatically.</div></div>
+<div class="sports-list" id="sportsList"><div class="panel sports-team"><div class="team-logo-wrap"><div class="team-logo-fallback">AZ</div></div><div><div class="sports-team-name">Loading Arizona sports…</div><div class="sports-line">Checking records, results and schedules</div></div><div class="sports-record"><div class="sports-record-value">—</div><div class="sports-record-label">Record</div></div></div></div>
 </div></div><div class="dynamic-foot">Sports data updates periodically.</div></section>
 
 <section class="screen" data-duration="30000">
@@ -274,9 +274,9 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07131c;col
 <div class="progress" id="progress"></div>
 </div>
 
-
 <script>
 const latitude=32.8795, longitude=-111.7574;
+const DISPLAY_TIME_ZONE="America/Phoenix";
 
 /* ===== USER-EDITABLE BIRTHDAYS =====
    Add names as: {name:"Sarah",month:9,day:14}
@@ -329,11 +329,25 @@ window.addEventListener("load",()=>setTimeout(tryStartMusic,1500));
 document.addEventListener("click",tryStartMusic,{once:true});
 document.addEventListener("keydown",tryStartMusic,{once:true});
 
+function phoenixDateParts(){
+ const parts=new Intl.DateTimeFormat("en-US",{timeZone:DISPLAY_TIME_ZONE,year:"numeric",month:"numeric",day:"numeric"}).formatToParts(new Date());
+ const obj={}; for(const p of parts) if(p.type!=="literal") obj[p.type]=Number(p.value);
+ return {year:obj.year,month:obj.month,day:obj.day};
+}
+function phoenixDateKey(){
+ const p=phoenixDateParts();
+ return `${p.year}-${String(p.month).padStart(2,"0")}-${String(p.day).padStart(2,"0")}`;
+}
+const loadedPhoenixDate=phoenixDateKey();
+setInterval(()=>{
+ if(phoenixDateKey()!==loadedPhoenixDate) window.location.reload();
+},60*1000);
+
 function updateClock(){
  const now=new Date();
  const c=document.getElementById("clock"), d=document.getElementById("date");
- if(c)c.textContent=now.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
- if(d)d.textContent=now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+ if(c)c.textContent=now.toLocaleTimeString("en-US",{timeZone:DISPLAY_TIME_ZONE,hour:"numeric",minute:"2-digit"});
+ if(d)d.textContent=now.toLocaleDateString("en-US",{timeZone:DISPLAY_TIME_ZONE,weekday:"long",month:"long",day:"numeric",year:"numeric"});
 }
 updateClock(); setInterval(updateClock,1000);
 
@@ -385,167 +399,179 @@ refillFactDeck();fact.textContent=nextFact();
 setInterval(()=>{fact.style.opacity=0;setTimeout(()=>{fact.textContent=nextFact();fact.style.opacity=1},350)},12000);
 
 function updateDynamicText(){
- const now=new Date(),h=now.getHours(),g=h<12?"Good morning, Casa Grande.":h<17?"Good afternoon, Casa Grande.":"Good evening, Casa Grande.";
- const d=now.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+ const now=new Date();
+ const h=Number(new Intl.DateTimeFormat("en-US",{timeZone:DISPLAY_TIME_ZONE,hour:"2-digit",hourCycle:"h23"}).format(now));
+ const g=h<12?"Good morning, Casa Grande.":h<17?"Good afternoon, Casa Grande.":"Good evening, Casa Grande.";
+ const d=now.toLocaleDateString("en-US",{timeZone:DISPLAY_TIME_ZONE,weekday:"long",month:"long",day:"numeric",year:"numeric"});
  if(window.glanceGreeting)glanceGreeting.textContent=g;if(window.glanceDate)glanceDate.textContent=d;if(window.sportsDate)sportsDate.textContent=d;if(window.glanceFact)glanceFact.textContent=nextFact();
 }
 updateDynamicText();setInterval(updateDynamicText,30*60*1000);
 
-/* Live headlines for Today at a Glance */
+/* Local and Arizona news for Today at a Glance */
 let headlineItems=[];
 let headlineIndex=0;
+const blockedHeadlineSources=/realtor|zillow|redfin|homes\.com|trulia|legacy\.com|echovita|pr newswire|business wire|globenewswire/i;
+const addressHeadline=/^\d{1,6}\s+[A-Za-z0-9.'-]+(?:\s+[A-Za-z0-9.'-]+){0,5}\s+(?:st|street|ave|avenue|rd|road|dr|drive|ln|lane|ct|court|blvd|boulevard|way|pl|place|cir|circle)\b/i;
+function parseHeadline(raw,fallback){
+ const clean=String(raw||"").replace(/\s+/g," ").trim();
+ const cut=clean.lastIndexOf(" - ");
+ if(cut>15&&cut<clean.length-3)return{title:clean.slice(0,cut).trim(),publisher:clean.slice(cut+3).trim()||fallback};
+ return{title:clean,publisher:fallback};
+}
+function usefulHeadline(x){
+ const t=x.title||"",s=x.publisher||"";
+ if(t.length<24||t.length>180)return false;
+ if(blockedHeadlineSources.test(`${t} ${s}`))return false;
+ if(addressHeadline.test(t))return false;
+ if(/\b(for sale|open house|property listing|real estate listing|obituar(?:y|ies)|classifieds?)\b/i.test(t))return false;
+ const letters=(t.match(/[A-Za-z]/g)||[]).length;
+ return letters>=t.length*.45;
+}
 async function loadHeadlines(){
-  const feeds=[
-    {url:"https://news.google.com/rss/search?q=Casa+Grande+Arizona+OR+Pinal+County+Arizona&hl=en-US&gl=US&ceid=US:en",label:"Casa Grande / Pinal County"},
-    {url:"https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en",label:"Top Stories"}
-  ];
-  const gathered=[];
-  for(const feed of feeds){
-    try{
-      const api=`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
-      const r=await fetch(api);
-      if(!r.ok) throw 0;
-      const d=await r.json();
-      (d.items||[]).slice(0,4).forEach(x=>gathered.push({title:(x.title||"").replace(/\s+-\s+[^-]+$/,""),source:feed.label}));
-    }catch(e){}
-  }
-  headlineItems=gathered.filter(x=>x.title).slice(0,6);
-  if(!headlineItems.length){headlineItems=[
-    {title:"Live headlines are temporarily unavailable.",source:"The display will retry automatically."},
-    {title:"Casa Grande Water Reclamation Facility continues serving the community 24/7.",source:"CGWRF"}
-  ];}
-  headlineIndex=0; showHeadline();
+ const feeds=[
+   {url:"https://news.google.com/rss/search?q=%22Casa+Grande%22+Arizona+OR+%22Pinal+County%22+Arizona&hl=en-US&gl=US&ceid=US:en",label:"Local News"},
+   {url:"https://news.google.com/rss/search?q=Arizona+news&hl=en-US&gl=US&ceid=US:en",label:"Arizona News"}
+ ];
+ const gathered=[];
+ for(const feed of feeds){
+   try{
+     const api=`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+     const r=await fetch(api);
+     if(!r.ok)throw 0;
+     const d=await r.json();
+     (d.items||[]).slice(0,12).forEach(item=>{
+       const p=parseHeadline(item.title,item.author||feed.label);
+       if(usefulHeadline(p))gathered.push({title:p.title,source:`${p.publisher} • ${feed.label}`});
+     });
+   }catch(e){}
+ }
+ const seen=new Set();
+ headlineItems=gathered.filter(x=>{
+   const key=x.title.toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+   if(!key||seen.has(key))return false;
+   seen.add(key);return true;
+ }).slice(0,8);
+ if(!headlineItems.length){headlineItems=[
+   {title:"Local and Arizona headlines are temporarily unavailable.",source:"The display will retry automatically."},
+   {title:"Casa Grande Water Reclamation Facility continues serving the community 24/7.",source:"CGWRF"}
+ ];}
+ headlineIndex=0;showHeadline();
 }
 function showHeadline(){
-  if(!window.headlineTitle||!headlineItems.length)return;
-  const x=headlineItems[headlineIndex%headlineItems.length];
-  headlineTitle.style.opacity=0; headlineSource.style.opacity=0;
-  setTimeout(()=>{headlineTitle.textContent=x.title;headlineSource.textContent=x.source;headlineTitle.style.opacity=1;headlineSource.style.opacity=1;},300);
-  headlineIndex=(headlineIndex+1)%headlineItems.length;
+ if(!window.headlineTitle||!headlineItems.length)return;
+ const x=headlineItems[headlineIndex%headlineItems.length];
+ headlineTitle.style.opacity=0;headlineSource.style.opacity=0;
+ setTimeout(()=>{headlineTitle.textContent=x.title;headlineSource.textContent=x.source;headlineTitle.style.opacity=1;headlineSource.style.opacity=1;},300);
+ headlineIndex=(headlineIndex+1)%headlineItems.length;
 }
 loadHeadlines();
 setInterval(showHeadline,12000);
 setInterval(loadHeadlines,30*60*1000);
 
-/* Sports v2: logos + current/next game */
+/* Sports v3: record + latest result + next matchup */
 const sportsFeeds=[
- {label:"Diamondbacks",league:"mlb",sport:"baseball",match:/Arizona Diamondbacks/i,abbr:"AZ"},
- {label:"Cardinals",league:"nfl",sport:"football",match:/Arizona Cardinals/i,abbr:"ARI"},
- {label:"Suns",league:"nba",sport:"basketball",match:/Phoenix Suns/i,abbr:"PHX"},
- {label:"ASU",league:"college-football",sport:"football",match:/Arizona State/i,abbr:"ASU"}
+ {label:"Diamondbacks",league:"mlb",sport:"baseball",match:/Arizona Diamondbacks/i,abbr:"AZ",pastDays:8,futureDays:8},
+ {label:"Cardinals",league:"nfl",sport:"football",match:/Arizona Cardinals/i,abbr:"ARI",pastDays:14,futureDays:16},
+ {label:"Suns",league:"nba",sport:"basketball",match:/Phoenix Suns/i,abbr:"PHX",pastDays:14,futureDays:21},
+ {label:"ASU",league:"college-football",sport:"football",match:/Arizona State/i,abbr:"ASU",pastDays:14,futureDays:21}
 ];
-
-function teamInEvent(e,f){
- return e.competitions?.[0]?.competitors?.find(c=>f.match.test(c.team?.displayName||""));
+function teamInEvent(e,f){return e.competitions?.[0]?.competitors?.find(c=>f.match.test(c.team?.displayName||""));}
+function eventOpponent(e,f){
+ const teams=e.competitions?.[0]?.competitors||[];
+ const me=teams.find(c=>f.match.test(c.team?.displayName||""));
+ return{me,op:teams.find(c=>c!==me)};
 }
-function eventForTeam(events,f){
- const now=Date.now();
- const matches=(events||[]).filter(e=>teamInEvent(e,f));
- matches.sort((a,b)=>{
-   const at=new Date(a.date).getTime(), bt=new Date(b.date).getTime();
-   const ap=a.status?.type?.state, bp=b.status?.type?.state;
-   const rank=s=>s==="in"?0:s==="pre"?1:2;
-   const ar=rank(ap), br=rank(bp);
-   if(ar!==br)return ar-br;
-   if(ar===1)return at-bt;
-   return Math.abs(now-at)-Math.abs(now-bt);
- });
- return matches[0];
+function teamRecord(me){
+ const records=me?.records||[];
+ return records.find(r=>r.type==="total"||String(r.name||"").toLowerCase()==="overall")?.summary||records[0]?.summary||"—";
 }
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-
-function sportsLine(f,e){
- if(!e)return{name:f.label,teamLogo:"",oppLogo:"",matchup:"No game currently listed",status:"Schedule will update automatically",score:"—",cls:""};
- const comp=e.competitions?.[0],teams=comp?.competitors||[];
- const me=teams.find(c=>f.match.test(c.team?.displayName||""));
- const op=teams.find(c=>c!==me);
- const state=e.status?.type?.state;
- const detail=e.status?.type?.shortDetail||e.status?.type?.detail||"";
- const mine=me?.team?.shortDisplayName||f.label;
- const opponent=op?.team?.shortDisplayName||"Opponent";
- const teamLogo=me?.team?.logo||"";
- const oppLogo=op?.team?.logo||"";
-
- if(state==="in"){
-   return{name:f.label,teamLogo,oppLogo,matchup:`${mine} vs ${opponent}`,status:detail||"LIVE",
-     score:`${me?.score||"0"} – ${op?.score||"0"}`,cls:"live"};
- }
- if(state==="post"){
-   return{name:f.label,teamLogo,oppLogo,matchup:`${mine} vs ${opponent}`,status:detail||"FINAL",
-     score:`${me?.score||"0"} – ${op?.score||"0"}`,cls:"final"};
- }
- const when=new Date(e.date);
- return{name:f.label,teamLogo,oppLogo,matchup:`${mine} vs ${opponent}`,
-   status:`${when.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})} • ${when.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`,
-   score:"UP NEXT",cls:"next"};
+function phoenixGameTime(date){
+ const when=new Date(date);
+ return `${when.toLocaleDateString("en-US",{timeZone:DISPLAY_TIME_ZONE,weekday:"short",month:"short",day:"numeric"})} • ${when.toLocaleTimeString("en-US",{timeZone:DISPLAY_TIME_ZONE,hour:"numeric",minute:"2-digit"})}`;
 }
-
-async function fetchTeamEvent(f){
- // Today first
+function opponentPhrase(me,op){return `${me?.homeAway==="away"?"at":"vs"} ${op?.team?.shortDisplayName||"Opponent"}`;}
+function latestResult(f,e){
+ if(!e)return"No recent result found";
+ const {me,op}=eventOpponent(e,f);
+ if(!me||!op)return"No recent result found";
+ const mine=Number(me.score),theirs=Number(op.score);
+ const result=mine>theirs?"W":mine<theirs?"L":"T";
+ return `${result} ${me.score||"0"}–${op.score||"0"} ${opponentPhrase(me,op)}`;
+}
+function nextMatchup(f,e){
+ if(!e)return"No upcoming game listed";
+ const {me,op}=eventOpponent(e,f);
+ if(!me||!op)return"No upcoming game listed";
+ return `${opponentPhrase(me,op)} • ${phoenixGameTime(e.date)}`;
+}
+function liveGame(f,e){
+ if(!e)return"";
+ const {me,op}=eventOpponent(e,f);
+ if(!me||!op)return"";
+ const detail=e.status?.type?.shortDetail||e.status?.type?.detail||"LIVE";
+ return `${me.score||"0"}–${op.score||"0"} ${opponentPhrase(me,op)} • ${detail}`;
+}
+function sportsCard(f,events){
+ const matches=(events||[]).filter(e=>teamInEvent(e,f));
+ const live=matches.find(e=>e.status?.type?.state==="in")||null;
+ const completed=matches.filter(e=>e.status?.type?.state==="post").sort((a,b)=>new Date(b.date)-new Date(a.date));
+ const upcoming=matches.filter(e=>e.status?.type?.state==="pre").sort((a,b)=>new Date(a.date)-new Date(b.date));
+ const last=completed[0]||null,next=upcoming[0]||null;
+ const ref=live||next||last||matches[0]||null;
+ const me=ref?teamInEvent(ref,f):null;
+ return{
+   name:f.label,
+   teamLogo:me?.team?.logo||"",
+   record:teamRecord(me),
+   liveText:live?liveGame(f,live):"",
+   lastText:latestResult(f,last),
+   nextText:nextMatchup(f,next)
+ };
+}
+function ymd(d){return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`;}
+async function fetchTeamData(f){
  const base=`https://site.api.espn.com/apis/site/v2/sports/${f.sport}/${f.league}/scoreboard`;
- let r=await fetch(base);
+ const now=new Date(),start=new Date(now),end=new Date(now);
+ start.setDate(start.getDate()-f.pastDays);end.setDate(end.getDate()+f.futureDays);
+ const r=await fetch(`${base}?dates=${ymd(start)}-${ymd(end)}&limit=500`);
  if(!r.ok)throw 0;
- let d=await r.json();
- let e=eventForTeam(d.events||[],f);
- if(e)return e;
-
- // If no game today, look ahead one week so off-days/offseason do not waste the card.
- const now=new Date();
- const ymd=x=>`${x.getFullYear()}${String(x.getMonth()+1).padStart(2,"0")}${String(x.getDate()).padStart(2,"0")}`;
- const end=new Date(now); end.setDate(end.getDate()+7);
- r=await fetch(`${base}?dates=${ymd(now)}-${ymd(end)}`);
- if(!r.ok)return null;
- d=await r.json();
- return eventForTeam(d.events||[],f);
+ const d=await r.json();
+ return sportsCard(f,d.events||[]);
 }
-
 async function loadSports(){
  if(!window.sportsList)return;
  const rows=[];
  for(const f of sportsFeeds){
-   try{
-     const e=await fetchTeamEvent(f);
-     rows.push(sportsLine(f,e));
-   }catch(err){
-     rows.push({name:f.label,teamLogo:"",oppLogo:"",matchup:"Schedule temporarily unavailable",status:"Will retry automatically",score:"—",cls:""});
-   }
+   try{rows.push(await fetchTeamData(f));}
+   catch(err){rows.push({name:f.label,teamLogo:"",record:"—",liveText:"",lastText:"Sports data temporarily unavailable",nextText:"Will retry automatically"});}
  }
  sportsList.innerHTML=rows.map((x,i)=>{
    const f=sportsFeeds[i];
-   const logo=x.teamLogo
-     ? `<img class="team-logo" src="${escapeHtml(x.teamLogo)}" alt="${escapeHtml(x.name)} logo">`
-     : `<div class="team-logo-fallback">${escapeHtml(f.abbr)}</div>`;
+   const logo=x.teamLogo?`<img class="team-logo" src="${escapeHtml(x.teamLogo)}" alt="${escapeHtml(x.name)} logo">`:`<div class="team-logo-fallback">${escapeHtml(f.abbr)}</div>`;
+   const firstLine=x.liveText?`<div class="sports-line live-line"><b>LIVE</b>${escapeHtml(x.liveText)}</div>`:`<div class="sports-line"><b>LAST</b>${escapeHtml(x.lastText)}</div>`;
    return `<div class="panel sports-team">
-      <div class="team-logo-wrap">${logo}</div>
-      <div><div class="sports-matchup">${escapeHtml(x.matchup)}</div><div class="sports-status">${escapeHtml(x.status)}</div></div>
-      <div class="sports-score ${escapeHtml(x.cls)}">${escapeHtml(x.score)}</div>
+     <div class="team-logo-wrap">${logo}</div>
+     <div><div class="sports-team-name">${escapeHtml(x.name)}</div>${firstLine}<div class="sports-line"><b>NEXT</b>${escapeHtml(x.nextText)}</div></div>
+     <div class="sports-record">${x.liveText?'<div class="sports-live-badge">LIVE</div>':''}<div class="sports-record-value">${escapeHtml(x.record)}</div><div class="sports-record-label">Record</div></div>
    </div>`;
  }).join("");
-
- const a=rows.find(x=>x.score!=="—");
- if(window.glanceSports){
-   glanceSports.textContent=a?`${a.name}: ${a.score}`:"Arizona sports today";
-   glanceSportsSub.textContent=a?`${a.matchup} • ${a.status}`:"Schedules update automatically when available.";
+ const a=rows.find(x=>x.liveText)||rows.find(x=>x.nextText!=="No upcoming game listed")||rows[0];
+ if(window.glanceSports&&a){
+   glanceSports.textContent=`${a.name}${a.record!=="—"?` • ${a.record}`:""}`;
+   glanceSportsSub.textContent=a.liveText?`LIVE: ${a.liveText} • Next: ${a.nextText}`:`Last: ${a.lastText} • Next: ${a.nextText}`;
  }
 }
 loadSports();
 setInterval(loadSports,15*60*1000);
 
 /* Today in History / special commemorative days */
-function phoenixDateParts(){
- const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/Phoenix",year:"numeric",month:"numeric",day:"numeric"}).formatToParts(new Date());
- const obj={}; for(const p of parts) if(p.type!=="literal") obj[p.type]=Number(p.value);
- return {year:obj.year,month:obj.month,day:obj.day};
-}
 async function loadHistory(){
  const {month:m,day:d}=phoenixDateParts();
  const s=document.getElementById("historyScreen");
  if(!s)return;
-
- // Always clear any prior special-day styling before setting today's content.
  s.classList.remove("memorial");
-
- if(m===9 && d===11){
+ if(m===9&&d===11){
    s.classList.add("memorial");
    historyLabel.textContent="Remembering September 11";
    historyTitle.textContent="September 11, 2001";
@@ -553,7 +579,6 @@ async function loadHistory(){
    historyFoot.textContent="We Remember.";
    return;
  }
-
  try{
    const mm=String(m).padStart(2,"0"),dd=String(d).padStart(2,"0");
    const r=await fetch(`https://en.wikipedia.org/api/rest_v1/feed/onthisday/events/${mm}/${dd}`);
@@ -576,9 +601,10 @@ async function loadHistory(){
 loadHistory();
 setInterval(loadHistory,6*60*60*1000);
 
-/* Birthday slide is shown only on an employee's birthday. */
+/* Birthday slide is shown only on an employee's birthday. The display reloads automatically when the Phoenix date changes. */
 function configureBirthday(){
  const pd=phoenixDateParts(),matches=birthdays.filter(x=>x.month===pd.month&&x.day===pd.day),s=document.getElementById("birthdayScreen");
+ if(!s)return;
  if(!matches.length){s.remove();return;}
  birthdayName.textContent=matches.length===1?matches[0].name:matches.map(x=>x.name).join(" & ");
 }
