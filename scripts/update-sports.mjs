@@ -87,6 +87,7 @@ function buildCard(t,id,logo,events){
   if(!record&&completed.length){
     let w=0,l=0,tie=0;
     for(const e of completed){
+      if(e?.season?.type!=null&&Number(e.season.type)!==2)continue;
       const {me,op}=opponentInEvent(e,id,t.match); const a=score(me),b=score(op);
       if(!Number.isFinite(a)||!Number.isFinite(b))continue;
       if(a>b)w++;else if(a<b)l++;else tie++;
@@ -124,5 +125,5 @@ if(!same)fs.writeFileSync('sports-data.json',JSON.stringify({generatedAt:new Dat
 let html=fs.readFileSync('index.html','utf8');
 const oldCalls=/loadSports\(\);\s*setInterval\(loadSports,15\*60\*1000\);/;
 if(oldCalls.test(html)) html=html.replace(oldCalls,'/* Sports data is rendered from sports-data.json by sports-loader.js. */');
-if(!html.includes('sports-loader.js')) html=html.replace('</body>','<script src="sports-loader.js"></script>\n</body>');
+if(!html.includes('<script src="sports-loader.js"')) html=html.replace('</body>','<script src="sports-loader.js"></script>\n</body>');
 fs.writeFileSync('index.html',html);
