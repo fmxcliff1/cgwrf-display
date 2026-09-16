@@ -90,7 +90,7 @@ function buildCard(t,id,logo,events){
       if(e?.season?.type!=null&&Number(e.season.type)!==2)continue;
       const {me,op}=opponentInEvent(e,id,t.match); const a=score(me),b=score(op);
       if(!Number.isFinite(a)||!Number.isFinite(b))continue;
-      if(a>b)w++;else if(a<b)l++;else tie++;
+      if(a>b)w++;else if(a<b)l++;else if(t.league!=='mlb')tie++;
     }
     record=tie?`${w}-${l}-${tie}`:`${w}-${l}`;
   }
