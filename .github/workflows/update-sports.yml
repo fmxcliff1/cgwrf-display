@@ -1,0 +1,44 @@
+name: Update sports data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/update-sports.mjs'
+      - 'sports-loader.js'
+      - '.github/workflows/update-sports.yml'
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch and build sports data
+        run: node scripts/update-sports.mjs
+
+      - name: Commit updated sports data
+        run: |
+          if git diff --quiet; then
+            echo "No sports changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html sports-data.json sports-loader.js
+          git commit -m "Update sports data [skip ci]"
+          git push
