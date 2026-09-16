@@ -481,6 +481,8 @@ function eventOpponent(e,f){
  const me=teams.find(c=>f.match.test(c.team?.displayName||""));
  return{me,op:teams.find(c=>c!==me)};
 }
+function eventState(e){return e.status?.type?.state||e.competitions?.[0]?.status?.type?.state||"";}
+function eventDetail(e){return e.status?.type?.shortDetail||e.status?.type?.detail||e.competitions?.[0]?.status?.type?.shortDetail||e.competitions?.[0]?.status?.type?.detail||"";}
 function teamRecord(me){
  const records=me?.records||[];
  return records.find(r=>r.type==="total"||String(r.name||"").toLowerCase()==="overall")?.summary||records[0]?.summary||"—";
@@ -509,14 +511,14 @@ function liveGame(f,e){
  if(!e)return"";
  const {me,op}=eventOpponent(e,f);
  if(!me||!op)return"";
- const detail=e.status?.type?.shortDetail||e.status?.type?.detail||"LIVE";
+ const detail=eventDetail(e)||"LIVE";
  return `${me.score||"0"}–${op.score||"0"} ${opponentPhrase(me,op)} • ${detail}`;
 }
 function sportsCard(f,events){
  const matches=(events||[]).filter(e=>teamInEvent(e,f));
- const live=matches.find(e=>e.status?.type?.state==="in")||null;
- const completed=matches.filter(e=>e.status?.type?.state==="post").sort((a,b)=>new Date(b.date)-new Date(a.date));
- const upcoming=matches.filter(e=>e.status?.type?.state==="pre").sort((a,b)=>new Date(a.date)-new Date(b.date));
+ const live=matches.find(e=>eventState(e)==="in")||null;
+ const completed=matches.filter(e=>eventState(e)==="post").sort((a,b)=>new Date(b.date)-new Date(a.date));
+ const upcoming=matches.filter(e=>eventState(e)==="pre").sort((a,b)=>new Date(a.date)-new Date(b.date));
  const last=completed[0]||null,next=upcoming[0]||null;
  const ref=live||next||last||matches[0]||null;
  const me=ref?teamInEvent(ref,f):null;
@@ -529,15 +531,50 @@ function sportsCard(f,events){
    nextText:nextMatchup(f,next)
  };
 }
-function ymd(d){return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`;}
 async function fetchTeamData(f){
- const base=`https://site.api.espn.com/apis/site/v2/sports/${f.sport}/${f.league}/scoreboard`;
- const now=new Date(),start=new Date(now),end=new Date(now);
- start.setDate(start.getDate()-f.pastDays);end.setDate(end.getDate()+f.futureDays);
- const r=await fetch(`${base}?dates=${ymd(start)}-${ymd(end)}&limit=500`);
+ const leagueBase=`https://site.api.espn.com/apis/site/v2/sports/${f.sport}/${f.league}`;
+ window.__espnTeamIdCache=window.__espnTeamIdCache||{};
+ const cacheKey=`${f.sport}/${f.league}/${f.label}`;
+ let teamId=window.__espnTeamIdCache[cacheKey];
+ if(!teamId){
+   const tr=await fetch(`${leagueBase}/teams`);
+   if(!tr.ok)throw 0;
+   const td=await tr.json();
+   const entries=td.sports?.[0]?.leagues?.[0]?.teams||[];
+   const found=entries.find(x=>f.match.test(x.team?.displayName||""));
+   teamId=found?.team?.id;
+   if(!teamId)throw 0;
+   window.__espnTeamIdCache[cacheKey]=teamId;
+ }
+
+ const pd=phoenixDateParts();
+ let params=`?season=${pd.year}`;
+ if(f.league==="nfl"||f.league==="college-football") params=`?season=${pd.year}&seasontype=2`;
+ if(f.league==="nba") params=`?season=${pd.month>=7?pd.year+1:pd.year}`;
+
+ let r=await fetch(`${leagueBase}/teams/${teamId}/schedule${params}`);
+ if(!r.ok)r=await fetch(`${leagueBase}/teams/${teamId}/schedule`);
  if(!r.ok)throw 0;
  const d=await r.json();
- return sportsCard(f,d.events||[]);
+ const events=d.events||[];
+ const card=sportsCard(f,events);
+
+ // Some schedule feeds do not attach a record to each event. Derive it from completed games when needed.
+ if(card.record==="—"){
+   let wins=0,losses=0,ties=0,completed=0;
+   for(const e of events){
+     if(eventState(e)!=="post")continue;
+     const {me,op}=eventOpponent(e,f);
+     if(!me||!op)continue;
+     const mine=Number(me.score),theirs=Number(op.score);
+     if(!Number.isFinite(mine)||!Number.isFinite(theirs))continue;
+     completed++;
+     if(mine>theirs)wins++;else if(mine<theirs)losses++;else ties++;
+   }
+   if(completed)card.record=ties?`${wins}-${losses}-${ties}`:`${wins}-${losses}`;
+   else if(events.some(e=>eventState(e)==="pre"||eventState(e)==="in"))card.record="0-0";
+ }
+ return card;
 }
 async function loadSports(){
  if(!window.sportsList)return;
