@@ -32,10 +32,28 @@
 
 /* Office background radio.
    Direct audio streams keep playback inside the Screen Keep page with no popup/video.
-   Folk Forward and Boot Liquor are SomaFM commercial-free stations; the existing
-   Radio Paradise Mellow Mix remains available as a softer option. */
+   Modern indie and Radio Paradise choices are listed first, with folk, Americana,
+   and mellow alternatives kept available. */
 (function(){
   const stations=[
+    {
+      name:'Indie Pop Rocks!',
+      subtitle:'Modern indie pop / rock • upbeat but office-friendly',
+      icon:'⚡',
+      streams:[
+        'https://ice5.somafm.com/indiepop-128-mp3',
+        'https://ice2.somafm.com/indiepop-128-mp3'
+      ]
+    },
+    {
+      name:'Main Mix',
+      subtitle:'Radio Paradise • modern + classic rock • indie • acoustic',
+      icon:'🎶',
+      streams:[
+        'https://stream.radioparadise.com/mp3-192',
+        'https://stream.radioparadise.com/aac-128'
+      ]
+    },
     {
       name:'Folk Forward',
       subtitle:'Indie folk • acoustic • modern coffeehouse',
