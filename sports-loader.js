@@ -31,7 +31,7 @@
 })();
 
 /* CGWRF Country Radio.
-   Wild Country Radio blends 80s/90s country with newer country and plays
+   HPR2 Today's Classic Country blends 80s/90s country with newer country and plays
    directly inside Screen Keep with no popup or separate app. */
 (function(){
   const streams=[
@@ -58,7 +58,7 @@
 
   const dock=document.createElement('div');
   dock.id='countryMusicDock';
-  dock.innerHTML='<div id="countryMusicStatus"></div><button id="countryMusicButton" title="Wild Country Radio">🤠 Country</button>';
+  dock.innerHTML='<div id="countryMusicStatus"></div><button id="countryMusicButton" title="HPR2 Today's Classic Country">🤠 Country</button>';
   document.body.appendChild(dock);
 
   const btn=dock.querySelector('#countryMusicButton');
@@ -78,7 +78,7 @@
       await audio.play();
       playing=true;
       btn.textContent='⏸ Country';
-      showStatus('Playing • Wild Country Radio');
+      showStatus("Playing • HPR2 Today's Classic Country");
     }catch(e){
       playing=false;
       btn.textContent='🤠 Country';
