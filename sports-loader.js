@@ -31,11 +31,11 @@
 })();
 
 /* CGWRF Country Radio.
-   HPR2 Today's Classic Country blends 80s/90s country with newer country and plays
+   HPR2 Today’s Classic Country focuses on classic country from the 1970s through the early 2000s and plays
    directly inside Screen Keep with no popup or separate app. */
 (function(){
   const streams=[
-    'https://digitalaudiobroadcasting.net/8008/stream'
+    'https://us2.maindigitalstream.com/ssl/7735'
   ];
   let streamIndex=0;
   let playing=false;
@@ -58,7 +58,7 @@
 
   const dock=document.createElement('div');
   dock.id='countryMusicDock';
-  dock.innerHTML='<div id="countryMusicStatus"></div><button id="countryMusicButton" title="HPR2 Today's Classic Country">🤠 Country</button>';
+  dock.innerHTML=`<div id="countryMusicStatus"></div><button id="countryMusicButton" title="HPR2 Today’s Classic Country">🤠 Country</button>`;
   document.body.appendChild(dock);
 
   const btn=dock.querySelector('#countryMusicButton');
