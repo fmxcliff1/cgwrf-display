@@ -30,14 +30,42 @@
   setInterval(load,5*60*1000);
 })();
 
-/* Coffeehouse background stream.
-   Uses Radio Paradise's commercial-free Mellow Mix as a simple direct audio stream,
-   avoiding YouTube popups/ads and working inside Android-TV signage browsers. */
+/* Office background radio.
+   Direct audio streams keep playback inside the Screen Keep page with no popup/video.
+   Folk Forward and Boot Liquor are SomaFM commercial-free stations; the existing
+   Radio Paradise Mellow Mix remains available as a softer option. */
 (function(){
-  const streams=[
-    'https://stream.radioparadise.com/mellow-192',
-    'https://stream.radioparadise.com/mellow-128'
+  const stations=[
+    {
+      name:'Folk Forward',
+      subtitle:'Indie folk • acoustic • modern coffeehouse',
+      icon:'☕',
+      streams:[
+        'https://ice5.somafm.com/folkfwd-128-mp3',
+        'https://ice2.somafm.com/folkfwd-128-mp3'
+      ]
+    },
+    {
+      name:'Country / Americana',
+      subtitle:'Boot Liquor • roots • alt-country • Americana',
+      icon:'🤠',
+      streams:[
+        'https://ice5.somafm.com/bootliquor-128-mp3',
+        'https://ice2.somafm.com/bootliquor-128-mp3'
+      ]
+    },
+    {
+      name:'Mellow Mix',
+      subtitle:'Radio Paradise • softer eclectic mix',
+      icon:'🌿',
+      streams:[
+        'https://stream.radioparadise.com/mellow-192',
+        'https://stream.radioparadise.com/mellow-128'
+      ]
+    }
   ];
+
+  let selected=Math.max(0,Math.min(stations.length-1,Number(localStorage.getItem('cgwrfRadioStation')||0)));
   let streamIndex=0;
   let playing=false;
 
@@ -51,19 +79,44 @@
   style.textContent=`
     #coffeeDock{position:fixed;right:1.2vw;bottom:1.2vh;z-index:9999;font-family:Arial,Helvetica,sans-serif;color:#f6fbff}
     #coffeeButton{border:1px solid rgba(117,215,236,.45);background:rgba(7,19,28,.92);color:#f6fbff;border-radius:999px;padding:.68vh .95vw;font-size:.8vw;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.28)}
-    #coffeeButton:hover,#coffeeButton:focus{outline:3px solid #75d7ec;outline-offset:3px;background:rgba(15,47,62,.98)}
+    #coffeeButton:hover,#coffeeButton:focus,.radioStation:focus,#radioPause:focus{outline:3px solid #75d7ec;outline-offset:3px;background:rgba(15,47,62,.98)}
+    #radioMenu{display:none;position:absolute;right:0;bottom:calc(100% + .8vh);width:20vw;min-width:320px;background:rgba(7,19,28,.98);border:1px solid rgba(255,255,255,.16);border-radius:.85vw;padding:1.05vh .85vw;box-shadow:0 14px 38px rgba(0,0,0,.45)}
+    #radioMenu.open{display:block}
+    .radioHead{font-size:.72vw;letter-spacing:.12em;text-transform:uppercase;color:#78d9ee;font-weight:800;margin:.15vh .25vw .75vh}
+    .radioStation{width:100%;text-align:left;border:0;border-radius:.55vw;background:rgba(255,255,255,.065);color:#f6fbff;padding:.82vh .68vw;margin:.32vh 0;cursor:pointer}
+    .radioStation:hover{background:rgba(117,215,236,.14)}
+    .radioStation b{display:block;font-size:.84vw}
+    .radioStation span{display:block;font-size:.66vw;color:#b8cbd3;margin-top:.2vh}
+    #radioPause{width:100%;border:1px solid rgba(255,255,255,.12);border-radius:.55vw;background:transparent;color:#c5d4da;padding:.62vh .68vw;margin-top:.5vh;font-size:.68vw;cursor:pointer}
     #coffeeStatus{position:absolute;right:0;bottom:calc(100% + .7vh);white-space:nowrap;background:rgba(7,19,28,.94);border:1px solid rgba(255,255,255,.12);border-radius:.55vw;padding:.48vh .65vw;font-size:.62vw;color:#b8cbd3;opacity:0;pointer-events:none;transition:opacity .25s}
     #coffeeStatus.show{opacity:1}
-    @media(max-width:1200px){#coffeeButton{font-size:14px;padding:9px 14px}#coffeeStatus{font-size:10px}}
+    @media(max-width:1200px){
+      #coffeeButton{font-size:14px;padding:9px 14px}
+      #radioMenu{width:340px}
+      .radioHead{font-size:12px}
+      .radioStation b{font-size:14px}
+      .radioStation span,#radioPause{font-size:11px}
+      #coffeeStatus{font-size:10px}
+    }
   `;
   document.head.appendChild(style);
 
   const dock=document.createElement('div');
   dock.id='coffeeDock';
-  dock.innerHTML='<div id="coffeeStatus">Radio Paradise • Mellow Mix • commercial-free</div><button id="coffeeButton" title="Radio Paradise Mellow Mix">☕ Coffeehouse</button>';
+  dock.innerHTML=`
+    <div id="coffeeStatus"></div>
+    <div id="radioMenu">
+      <div class="radioHead">Background Radio</div>
+      ${stations.map((s,i)=>`<button class="radioStation" data-station="${i}"><b>${s.icon} ${s.name}</b><span>${s.subtitle}</span></button>`).join('')}
+      <button id="radioPause">⏸ Pause Music</button>
+    </div>
+    <button id="coffeeButton" aria-haspopup="true" aria-expanded="false">☕ Coffeehouse</button>`;
   document.body.appendChild(dock);
 
   const btn=dock.querySelector('#coffeeButton');
+  const menu=dock.querySelector('#radioMenu');
+  const stationButtons=Array.from(dock.querySelectorAll('.radioStation'));
+  const pauseButton=dock.querySelector('#radioPause');
   const status=dock.querySelector('#coffeeStatus');
   let statusTimer=null;
 
@@ -71,51 +124,106 @@
     status.textContent=text;
     status.classList.add('show');
     clearTimeout(statusTimer);
-    statusTimer=setTimeout(()=>status.classList.remove('show'),3000);
+    statusTimer=setTimeout(()=>status.classList.remove('show'),3200);
   }
 
-  async function start(){
+  function openMenu(){
+    menu.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+    setTimeout(()=>stationButtons[selected]?.focus(),60);
+  }
+
+  function closeMenu(){
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+
+  function setButton(){
+    if(playing){
+      const s=stations[selected];
+      btn.textContent=`🎵 ${s.name}`;
+    }else{
+      btn.textContent='☕ Coffeehouse';
+    }
+  }
+
+  async function playSelected(){
+    const s=stations[selected];
+    streamIndex=0;
+    audio.src=s.streams[streamIndex];
     try{
-      if(!audio.src)audio.src=streams[streamIndex];
       await audio.play();
       playing=true;
-      btn.textContent='⏸ Coffeehouse';
-      showStatus('Playing • Radio Paradise Mellow Mix');
+      setButton();
+      showStatus(`Playing • ${s.name}`);
     }catch(e){
+      playing=false;
+      setButton();
       showStatus('Unable to start audio');
-      console.warn('Coffeehouse stream could not start',e);
+      console.warn('Radio stream could not start',e);
     }
+  }
+
+  async function chooseStation(index){
+    selected=index;
+    localStorage.setItem('cgwrfRadioStation',String(index));
+    closeMenu();
+    await playSelected();
+    setTimeout(()=>btn.focus(),100);
   }
 
   function pause(){
     audio.pause();
     playing=false;
-    btn.textContent='☕ Coffeehouse';
-    showStatus('Coffeehouse paused');
+    setButton();
+    closeMenu();
+    showStatus('Music paused');
+    setTimeout(()=>btn.focus(),100);
   }
 
-  btn.addEventListener('click',()=>playing?pause():start());
+  btn.addEventListener('click',()=>menu.classList.contains('open')?closeMenu():openMenu());
+  stationButtons.forEach(el=>el.addEventListener('click',()=>chooseStation(Number(el.dataset.station))));
+  pauseButton.addEventListener('click',pause);
+
+  menu.addEventListener('keydown',e=>{
+    const controls=[...stationButtons,pauseButton];
+    const i=controls.indexOf(document.activeElement);
+    if(e.key==='ArrowDown'){
+      e.preventDefault();
+      controls[(i+1+controls.length)%controls.length].focus();
+    }else if(e.key==='ArrowUp'){
+      e.preventDefault();
+      controls[(i-1+controls.length)%controls.length].focus();
+    }else if(e.key==='Escape'){
+      e.preventDefault();
+      closeMenu();
+      btn.focus();
+    }
+  });
+
+  document.addEventListener('click',e=>{if(!dock.contains(e.target))closeMenu();});
 
   audio.addEventListener('playing',()=>{
     playing=true;
-    btn.textContent='⏸ Coffeehouse';
+    setButton();
   });
   audio.addEventListener('pause',()=>{
     if(!audio.ended){
       playing=false;
-      btn.textContent='☕ Coffeehouse';
+      setButton();
     }
   });
   audio.addEventListener('error',()=>{
-    if(streamIndex<streams.length-1){
+    const s=stations[selected];
+    if(streamIndex<s.streams.length-1){
       streamIndex++;
       const wasPlaying=playing;
-      audio.src=streams[streamIndex];
+      audio.src=s.streams[streamIndex];
       if(wasPlaying)audio.play().catch(()=>{});
     }else{
       playing=false;
-      btn.textContent='☕ Coffeehouse';
-      showStatus('Coffeehouse stream unavailable');
+      setButton();
+      showStatus(`${s.name} stream unavailable`);
     }
   });
 
