@@ -41,8 +41,8 @@
       subtitle:'KCRW • modern + classic • soul • indie • mellow hip-hop/R&B',
       icon:'🎧',
       streams:[
-        'https://kcrw.streamguys1.com/kcrw_192k_mp3_e24',
-        'https://kcrw.streamguys1.com/kcrw_128k_mp3_e24'
+        'https://streams.kcrw.com/e24_mp3',
+        'https://streams.kcrw.com/e24_aac'
       ]
     },
     {
