@@ -99,7 +99,6 @@
   const audio=document.createElement('audio');
   audio.preload='none';
   audio.volume=.16;
-  audio.crossOrigin='anonymous';
   document.body.appendChild(audio);
 
   const style=document.createElement('style');
