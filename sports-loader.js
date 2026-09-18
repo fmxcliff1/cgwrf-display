@@ -32,10 +32,19 @@
 
 /* Office background radio.
    Direct audio streams keep playback inside the Screen Keep page with no popup/video.
-   Modern indie and Radio Paradise choices are listed first, with folk, Americana,
-   and mellow alternatives kept available. */
+   KCRW Eclectic24 is the lead test option, with modern indie, Radio Paradise,
+   folk, Americana, and mellow alternatives kept available. */
 (function(){
   const stations=[
+    {
+      name:'Eclectic24',
+      subtitle:'KCRW • modern + classic • soul • indie • mellow hip-hop/R&B',
+      icon:'🎧',
+      streams:[
+        'https://kcrw.streamguys1.com/kcrw_192k_mp3_e24',
+        'https://kcrw.streamguys1.com/kcrw_128k_mp3_e24'
+      ]
+    },
     {
       name:'Indie Pop Rocks!',
       subtitle:'Modern indie pop / rock • upbeat but office-friendly',
@@ -128,7 +137,7 @@
       ${stations.map((s,i)=>`<button class="radioStation" data-station="${i}"><b>${s.icon} ${s.name}</b><span>${s.subtitle}</span></button>`).join('')}
       <button id="radioPause">⏸ Pause Music</button>
     </div>
-    <button id="coffeeButton" aria-haspopup="true" aria-expanded="false">☕ Coffeehouse</button>`;
+    <button id="coffeeButton" aria-haspopup="true" aria-expanded="false">🎵 Music</button>`;
   document.body.appendChild(dock);
 
   const btn=dock.querySelector('#coffeeButton');
@@ -161,7 +170,7 @@
       const s=stations[selected];
       btn.textContent=`🎵 ${s.name}`;
     }else{
-      btn.textContent='☕ Coffeehouse';
+      btn.textContent='🎵 Music';
     }
   }
 
