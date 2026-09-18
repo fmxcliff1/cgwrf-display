@@ -30,72 +30,192 @@
   setInterval(load,5*60*1000);
 })();
 
-/* Office background radio.
-   Single-station test using Radio Paradise Main Mix. Direct audio playback keeps
-   music inside the Screen Keep page with no popup/video or commercial breaks. */
+/* CGWRF Office Mix.
+   A weighted rotation of Radio Paradise channels gives the office a broader blend:
+   modern/classic rock and adult alternative most of the time, with occasional
+   eclectic/world and mellow blocks. It stays commercial-free and runs inside
+   Screen Keep with no popup or separate app. */
 (function(){
-  const streams=[
-    'https://stream.radioparadise.com/mp3-192',
-    'https://stream.radioparadise.com/aac-128'
-  ];
-  let streamIndex=0;
+  const channels={
+    main:{
+      name:'Main',
+      streams:[
+        'https://stream.radioparadise.com/mp3-192',
+        'https://stream.radioparadise.com/aac-128'
+      ]
+    },
+    rock:{
+      name:'Rock',
+      streams:[
+        'https://stream.radioparadise.com/rock-192',
+        'https://stream.radioparadise.com/rock-128'
+      ]
+    },
+    world:{
+      name:'Eclectic',
+      streams:[
+        'https://stream.radioparadise.com/world-etc-192',
+        'https://stream.radioparadise.com/eclectic-192'
+      ]
+    },
+    mellow:{
+      name:'Mellow',
+      streams:[
+        'https://stream.radioparadise.com/mellow-192',
+        'https://stream.radioparadise.com/mellow-128'
+      ]
+    }
+  };
+
+  /* 50% Main, 25% Rock, 12.5% Eclectic, 12.5% Mellow. */
+  const rotation=['main','rock','main','world','main','rock','main','mellow'];
+  const BLOCK_MS=40*60*1000;
+  const TARGET_VOLUME=.16;
+  const FADE_MS=3500;
+
+  let rotationIndex=0;
+  let sourceIndex=0;
   let playing=false;
+  let blockTimer=null;
+  let fadeTimer=null;
 
   const audio=document.createElement('audio');
   audio.preload='none';
-  audio.volume=.16;
+  audio.volume=TARGET_VOLUME;
   document.body.appendChild(audio);
 
   const style=document.createElement('style');
   style.textContent=`
-    #officeMusicDock{position:fixed;right:1.2vw;bottom:1.2vh;z-index:9999;font-family:Arial,Helvetica,sans-serif;color:#f6fbff}
-    #officeMusicButton{border:1px solid rgba(117,215,236,.45);background:rgba(7,19,28,.92);color:#f6fbff;border-radius:999px;padding:.68vh .95vw;font-size:.8vw;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.28)}
-    #officeMusicButton:hover,#officeMusicButton:focus{outline:3px solid #75d7ec;outline-offset:3px;background:rgba(15,47,62,.98)}
+    #officeMusicDock{position:fixed;right:1.2vw;bottom:1.2vh;z-index:9999;display:flex;gap:.45vw;align-items:center;font-family:Arial,Helvetica,sans-serif;color:#f6fbff}
+    .officeMusicControl{border:1px solid rgba(117,215,236,.45);background:rgba(7,19,28,.92);color:#f6fbff;border-radius:999px;padding:.68vh .95vw;font-size:.8vw;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+    #officeMusicNext{padding:.68vh .72vw}
+    .officeMusicControl:hover,.officeMusicControl:focus{outline:3px solid #75d7ec;outline-offset:3px;background:rgba(15,47,62,.98)}
     #officeMusicStatus{position:absolute;right:0;bottom:calc(100% + .7vh);white-space:nowrap;background:rgba(7,19,28,.94);border:1px solid rgba(255,255,255,.12);border-radius:.55vw;padding:.48vh .65vw;font-size:.62vw;color:#b8cbd3;opacity:0;pointer-events:none;transition:opacity .25s}
     #officeMusicStatus.show{opacity:1}
-    @media(max-width:1200px){#officeMusicButton{font-size:14px;padding:9px 14px}#officeMusicStatus{font-size:10px}}
+    @media(max-width:1200px){.officeMusicControl{font-size:14px;padding:9px 14px}#officeMusicNext{padding:9px 12px}#officeMusicStatus{font-size:10px}}
   `;
   document.head.appendChild(style);
 
   const dock=document.createElement('div');
   dock.id='officeMusicDock';
-  dock.innerHTML='<div id="officeMusicStatus"></div><button id="officeMusicButton" title="Radio Paradise Main Mix">🎵 Office Mix</button>';
+  dock.innerHTML='<div id="officeMusicStatus"></div><button id="officeMusicButton" class="officeMusicControl">🎵 Office Mix</button><button id="officeMusicNext" class="officeMusicControl" title="Next mix">⏭</button>';
   document.body.appendChild(dock);
 
   const btn=dock.querySelector('#officeMusicButton');
+  const nextBtn=dock.querySelector('#officeMusicNext');
   const status=dock.querySelector('#officeMusicStatus');
   let statusTimer=null;
+
+  function currentKey(){return rotation[rotationIndex%rotation.length];}
+  function currentChannel(){return channels[currentKey()];}
 
   function showStatus(text){
     status.textContent=text;
     status.classList.add('show');
     clearTimeout(statusTimer);
-    statusTimer=setTimeout(()=>status.classList.remove('show'),3200);
+    statusTimer=setTimeout(()=>status.classList.remove('show'),3400);
   }
 
-  async function start(){
+  function clearFade(){
+    if(fadeTimer){clearInterval(fadeTimer);fadeTimer=null;}
+  }
+
+  function fadeTo(target,duration,done){
+    clearFade();
+    const start=audio.volume;
+    const began=Date.now();
+    fadeTimer=setInterval(()=>{
+      const p=Math.min(1,(Date.now()-began)/duration);
+      audio.volume=start+(target-start)*p;
+      if(p>=1){
+        clearFade();
+        audio.volume=target;
+        if(done)done();
+      }
+    },100);
+  }
+
+  function armBlockTimer(){
+    clearTimeout(blockTimer);
+    if(playing)blockTimer=setTimeout(()=>advance(true),BLOCK_MS);
+  }
+
+  async function loadCurrent(announce=true){
+    const c=currentChannel();
+    sourceIndex=0;
+    audio.src=c.streams[sourceIndex];
+    audio.volume=0;
     try{
-      if(!audio.src)audio.src=streams[streamIndex];
       await audio.play();
       playing=true;
       btn.textContent='⏸ Office Mix';
-      showStatus('Playing • Radio Paradise Main Mix');
+      fadeTo(TARGET_VOLUME,FADE_MS);
+      armBlockTimer();
+      if(announce)showStatus(`CGWRF Mix • ${c.name}`);
     }catch(e){
-      playing=false;
-      btn.textContent='🎵 Office Mix';
-      showStatus('Unable to start audio');
-      console.warn('Office music stream could not start',e);
+      console.warn('Office Mix stream could not start',e);
+      tryFallback();
+    }
+  }
+
+  async function tryFallback(){
+    const c=currentChannel();
+    if(sourceIndex<c.streams.length-1){
+      sourceIndex++;
+      audio.src=c.streams[sourceIndex];
+      try{
+        await audio.play();
+        playing=true;
+        btn.textContent='⏸ Office Mix';
+        fadeTo(TARGET_VOLUME,FADE_MS);
+        armBlockTimer();
+        return;
+      }catch(e){}
+    }
+    rotationIndex=(rotationIndex+1)%rotation.length;
+    sourceIndex=0;
+    loadCurrent(true);
+  }
+
+  function start(){
+    if(audio.src){
+      audio.play().then(()=>{
+        playing=true;
+        btn.textContent='⏸ Office Mix';
+        fadeTo(TARGET_VOLUME,1200);
+        armBlockTimer();
+        showStatus(`CGWRF Mix • ${currentChannel().name}`);
+      }).catch(()=>loadCurrent(true));
+    }else{
+      loadCurrent(true);
     }
   }
 
   function pause(){
+    clearTimeout(blockTimer);
+    clearFade();
     audio.pause();
     playing=false;
     btn.textContent='🎵 Office Mix';
     showStatus('Office Mix paused');
   }
 
+  function advance(auto=false){
+    const wasPlaying=playing;
+    clearTimeout(blockTimer);
+    const switchNow=()=>{
+      audio.pause();
+      rotationIndex=(rotationIndex+1)%rotation.length;
+      sourceIndex=0;
+      if(wasPlaying)loadCurrent(true);
+      else showStatus(`Next up • ${currentChannel().name}`);
+    };
+    if(wasPlaying)fadeTo(0,auto?FADE_MS:1200,switchNow);
+    else switchNow();
+  }
+
   btn.addEventListener('click',()=>playing?pause():start());
+  nextBtn.addEventListener('click',()=>advance(false));
 
   audio.addEventListener('playing',()=>{
     playing=true;
@@ -103,23 +223,14 @@
   });
 
   audio.addEventListener('pause',()=>{
-    if(!audio.ended){
+    if(!audio.ended && !fadeTimer){
       playing=false;
       btn.textContent='🎵 Office Mix';
     }
   });
 
   audio.addEventListener('error',()=>{
-    if(streamIndex<streams.length-1){
-      streamIndex++;
-      const wasPlaying=playing;
-      audio.src=streams[streamIndex];
-      if(wasPlaying)audio.play().catch(()=>{});
-    }else{
-      playing=false;
-      btn.textContent='🎵 Office Mix';
-      showStatus('Office Mix stream unavailable');
-    }
+    if(playing || audio.src)tryFallback();
   });
 
   if(/Android/i.test(navigator.userAgent)){
