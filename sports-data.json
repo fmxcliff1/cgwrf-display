@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-09-19T04:24:57.378Z",
+  "generatedAt": "2026-09-19T04:37:59.395Z",
   "teams": [
     {
       "name": "Diamondbacks",
       "abbr": "AZ",
       "logo": "https://a.espncdn.com/i/teamlogos/mlb/500/ari.png",
-      "record": "80-73",
-      "lastText": "L 3–4 vs Marlins",
+      "record": "80-74",
+      "lastText": "L 2–9 vs Yankees",
       "nextText": "vs Yankees • Sat, Sep 19 • 5:10 PM",
-      "liveText": "0–0 vs Yankees • Bot 9th"
+      "liveText": ""
     },
     {
       "name": "Cardinals",
