@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T19:34:59.745Z",
+  "generatedAt": "2026-09-19T19:49:24.074Z",
   "teams": [
     {
       "name": "Diamondbacks",
@@ -32,10 +32,10 @@
       "name": "ASU",
       "abbr": "ASU",
       "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/9.png",
-      "record": "1-1",
-      "lastText": "L 20–48 at Texas A&M",
+      "record": "2-1",
+      "lastText": "W 24–17 at Kansas",
       "nextText": "vs Baylor • Fri, Oct 2 • 9:00 PM",
-      "liveText": "0–0 at Kansas • 6:01 - 4th"
+      "liveText": ""
     }
   ]
 }
