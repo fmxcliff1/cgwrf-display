@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T22:07:29.879Z",
+  "generatedAt": "2026-09-20T22:23:39.284Z",
   "teams": [
     {
       "name": "Diamondbacks",
@@ -8,7 +8,7 @@
       "record": "81-74",
       "lastText": "W 5–3 vs Yankees",
       "nextText": "at Rockies • Tue, Sep 22 • 5:40 PM",
-      "liveText": "0–0 vs Yankees • Top 6th"
+      "liveText": "0–0 vs Yankees • Bot 7th"
     },
     {
       "name": "Cardinals",
@@ -17,7 +17,7 @@
       "record": "1-0",
       "lastText": "W 26–14 at Chargers",
       "nextText": "at 49ers • Sun, Sep 27 • 1:05 PM",
-      "liveText": "7–7 vs Seahawks • Halftime"
+      "liveText": "0–0 vs Seahawks • 9:22 - 3rd"
     },
     {
       "name": "Suns",
