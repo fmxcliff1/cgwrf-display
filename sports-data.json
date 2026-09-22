@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T05:51:28.738Z",
+  "generatedAt": "2026-09-22T06:10:28.441Z",
   "teams": [
     {
       "name": "Diamondbacks",
@@ -22,10 +22,10 @@
     {
       "name": "Suns",
       "abbr": "PHX",
-      "logo": "",
-      "record": "—",
-      "lastText": "Sports data temporarily unavailable",
-      "nextText": "Will retry automatically",
+      "logo": "https://a.espncdn.com/i/teamlogos/nba/500/phx.png",
+      "record": "0-0",
+      "lastText": "No recent result found",
+      "nextText": "at Pistons • Mon, Oct 5 • 4:00 PM",
       "liveText": ""
     },
     {
