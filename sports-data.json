@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T03:05:49.953Z",
+  "generatedAt": "2026-11-05T10:51:20.147Z",
   "teams": [
     {
       "name": "Diamondbacks",
@@ -23,10 +23,10 @@
       "name": "Suns",
       "abbr": "PHX",
       "logo": "https://a.espncdn.com/i/teamlogos/nba/500/phx.png",
-      "record": "1-4",
-      "lastText": "L 113–116 at Warriors",
+      "record": "1-5",
+      "lastText": "L 119–132 vs Trail Blazers",
       "nextText": "vs Magic • Thu, Nov 5 • 7:00 PM",
-      "liveText": "0–0 vs Trail Blazers • 3:34 - 2nd"
+      "liveText": ""
     },
     {
       "name": "ASU",
