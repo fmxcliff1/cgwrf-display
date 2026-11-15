@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T00:02:05.593Z",
+  "generatedAt": "2026-11-15T06:25:50.589Z",
   "teams": [
     {
       "name": "Diamondbacks",
@@ -32,10 +32,10 @@
       "name": "ASU",
       "abbr": "ASU",
       "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/9.png",
-      "record": "5-4",
-      "lastText": "W 20–10 vs Colorado",
+      "record": "6-4",
+      "lastText": "W 26–13 at UCF",
       "nextText": "vs Oklahoma St • Sat, Nov 21 • 8:15 PM",
-      "liveText": "0–0 at UCF • 0:43 - 2nd"
+      "liveText": ""
     }
   ]
 }
