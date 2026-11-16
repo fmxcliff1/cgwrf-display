@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T23:43:06.618Z",
+  "generatedAt": "2026-11-16T03:10:51.240Z",
   "teams": [
     {
       "name": "Diamondbacks",
@@ -14,19 +14,19 @@
       "name": "Cardinals",
       "abbr": "ARI",
       "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ari.png",
-      "record": "3-6",
-      "lastText": "L 3–17 at Seahawks",
+      "record": "3-7",
+      "lastText": "L 6–34 vs Rams",
       "nextText": "at Chiefs • Sun, Nov 22 • 11:00 AM",
-      "liveText": "0–0 vs Rams • 4:55 - 4th"
+      "liveText": ""
     },
     {
       "name": "Suns",
       "abbr": "PHX",
       "logo": "https://a.espncdn.com/i/teamlogos/nba/500/phx.png",
-      "record": "5-6",
-      "lastText": "W 101–96 vs Hornets",
+      "record": "5-7",
+      "lastText": "L 123–131 vs Lakers",
       "nextText": "at Nuggets • Mon, Nov 16 • 7:00 PM",
-      "liveText": "0–0 vs Lakers • 1:02 - 4th"
+      "liveText": ""
     },
     {
       "name": "ASU",
