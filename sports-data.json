@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-22T20:19:56.531Z",
+  "generatedAt": "2026-11-23T01:01:24.422Z",
   "teams": [
     {
       "name": "Diamondbacks",
@@ -14,10 +14,10 @@
       "name": "Cardinals",
       "abbr": "ARI",
       "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/ari.png",
-      "record": "3-7",
-      "lastText": "L 6–34 vs Rams",
+      "record": "3-8",
+      "lastText": "L 7–34 at Chiefs",
       "nextText": "vs Commanders • Sun, Nov 29 • 2:25 PM",
-      "liveText": "0–0 at Chiefs • 13:19 - 4th"
+      "liveText": ""
     },
     {
       "name": "Suns",
